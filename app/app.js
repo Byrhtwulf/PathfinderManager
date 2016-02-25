@@ -1,7 +1,7 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
-var PathfinderManager = angular.module('PathfinderManager', ['cfp.hotkeys']);
+var PathfinderManager = angular.module('PathfinderManager', ['cfp.hotkeys', "checklist-model"]);
 
 PathfinderManager.controller('CombatManager', ['$scope', '$filter', 'hotkeys', function($scope, $filter, hotkeys) {
     $scope.roundCounter = 1;
@@ -9,6 +9,8 @@ PathfinderManager.controller('CombatManager', ['$scope', '$filter', 'hotkeys', f
     $scope.data = [{name:"Boromir", initiative:17, statuses:[{name: "Dazed", duration: 1}, {name: "Stunned", duration: 3}]},
         {name:"Arc", initiative:12, statuses:[{name: "Poisoned", duration: 8}, {name: "Stunned", duration: 3}]},
         {name:"Rhaelyn", initiative:13, statuses:[{name: "Dazzled", duration: 9}, {name: "Diseased", duration: 5}]}];
+
+    $scope.charactersToAddStatuses = [];
 
     $scope.addItem = function () {
         var item= {name:this.newCharacterName, initiative: this.newCharacterInitiative, statuses:[]};
@@ -25,8 +27,19 @@ PathfinderManager.controller('CombatManager', ['$scope', '$filter', 'hotkeys', f
         $statusScope.newStatusDuration = 0;
     };
 
+    $scope.addStatusTo = function () {
+        var status= {name:this.newStatusNameTo, duration: this.newStatusDurationTo};
+
+        angular.forEach($scope.charactersToAddStatuses, function(statusList){
+            statusList.push(status);
+        });
+        $scope.newStatusNameTo = "";
+        $scope.newStatusDurationTo = 0;
+        $scope.charactersToAddStatuses = [];
+    };
+
     hotkeys.add({
-        combo: '`',
+        combo: 'shift+space',
         description: 'Advance to next character',
         callback:function(){
             $scope.nextInitiative();
