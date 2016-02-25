@@ -1,9 +1,9 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
-var PathfinderManager = angular.module('PathfinderManager', []);
+var PathfinderManager = angular.module('PathfinderManager', ['cfp.hotkeys']);
 
-PathfinderManager.controller('CombatManager', ['$scope', '$filter', function($scope, $filter) {
+PathfinderManager.controller('CombatManager', ['$scope', '$filter', 'hotkeys', function($scope, $filter, hotkeys) {
     $scope.roundCounter = 1;
     $scope.numOfActions = 0;
     $scope.data = [{name:"Boromir", initiative:17, statuses:[{name: "Dazed", duration: 1}, {name: "Stunned", duration: 3}]},
@@ -24,6 +24,14 @@ PathfinderManager.controller('CombatManager', ['$scope', '$filter', function($sc
         $statusScope.newStatusName = "";
         $statusScope.newStatusDuration = 0;
     };
+
+    hotkeys.add({
+        combo: '`',
+        description: 'Advance to next character',
+        callback:function(){
+            $scope.nextInitiative();
+        }
+    })
 
     $scope.nextInitiative = function(){
 

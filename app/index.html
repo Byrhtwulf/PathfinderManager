@@ -11,13 +11,14 @@
   <link rel="stylesheet" href="app.css">
   <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="css/hotkeys.css">
   <!--<script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>-->
 </head>
 <body>
 <div class="container">
     <div class="row">
 
-        <div ng-controller="CombatManager" id=combat-manager class="col-xs-12">
+        <div ng-controller="CombatManager" id=combat-manager class="col-xs-12" ng-keypress="checkNextInitiative($event)">
 
         <div class="row" id="combat-manager-header">
             <div id="initiative-tracker-title" class="col-xs-3">
@@ -82,13 +83,15 @@
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
   -->
       <script src="bower_components/angular/angular.js"></script>
-      <script src="bower_components/angular-route/angular-route.js"></script>
+      <script src="bower_components/angular-route/angular-route.1111`js"></script>
       <script src="app.js"></script>
       <script src="components/version/version.js"></script>
       <script src="components/version/version-directive.js"></script>
       <script src="components/version/interpolate-filter.js"></script>
       <script src="scripts/jquery-1.12.0.min.js"></script>
       <script src="scripts/bootstrap.js"></script>
+            <script src="scripts/mousetrap.min.js"></script>
+            <script src="scripts/hotkeys.js"></script>
     </div>
     </div>
 </div>
