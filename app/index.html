@@ -1,47 +1,80 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html lang="en" ng-app="Combat" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html lang="en" ng-app="Combat" class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html lang="en" ng-app="Combat" class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html lang="en" ng-app="Combat" class="no-js"> <!--<![endif]-->
+<html lang="en" ng-app="PathfinderManager">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Pathfinder Manager</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
-  <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
+  <!--<link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
+  <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">-->
   <link rel="stylesheet" href="app.css">
   <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/bootstrap-responsive.css">
-  <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+    <!--<link rel="stylesheet" href="css/bootstrap-responsive.css">-->
+  <!--<script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>-->
 </head>
 <body>
 <div class="container-fluid">
-
     <div class="row">
-      <ul class="menu col-xs-12">
-        <li><a href="#/CombatManager">Combat Manager</a></li>
-        <li><a href="#/view2">view2</a></li>
-      </ul>
-    </div>
-      <div ng-view>
 
+    <div ng-controller="CombatManager" id=combat-manager" class="col-xs-12">
+
+        <div>
+            <div id="initiative-tracker-title">Initiative Tracker</div>
+            <div id="round-counter">Round : {{roundCounter}}</div>
+            <ul id="initiative-tracker">
+                <li ng-repeat="character in data track by $index">{{character.name}}, {{character.initiative}}
+                <ul class="character-statuses">
+                    <li ng-repeat="status in character.statuses">
+                        {{status.name}}: {{status.duration + 1}} more rounds
+                    </li>
+                    <li>
+                        <form id="add-new-status">
+                            <div class="form-group">
+                                <label for="add-new-status-name">Status Name:</label>
+                                <input type="text" ng-model="newStatusName" id="add-new-status-name" name="status-name"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="add-new-status-duration">Status Duration:</label>
+                                <input type="number" ng-model="newStatusDuration" id=add-new-status-duration name="status-duration"/>
+                            </div>
+                            <input type="button" ng-click="addStatus($scope, $index)" value="Add Status" /><br/>
+                        </form>
+                    </li>
+                </ul>
+                </li>
+            </ul>
+            <div>Characters Length: {{data.length}}</div>
+        </div>
+        <pre>{{data}}</pre><br/><br/>
+
+        <form id="add-new-character">
+            <div class="form-group">
+                <label for="add-new-character-name">Name:</label>
+                <input type="text" ng-model="newCharacterName" id="add-new-character-name" name="character-name"/>
+            </div>
+            <div class="form-group">
+                <label for="add-new-character-initiative">Initiative:</label>
+                <input type="number" ng-model="newCharacterInitiative" id=add-new-character-initiative name="character-initiative"/>
+            </div>
+            <input type="button" ng-click="addItem()" value="Add Character" /><br/>
+        </form>
+        <input type="button" ng-click="nextInitiative()" value="Next Initiative" /><br/>
+        <input type="button" ng-click="startCombat()" value="Start Combat" /><br/>
     </div>
 
   <!-- In production use:
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
   -->
-  <script src="bower_components/angular/angular.js"></script>
-  <script src="bower_components/angular-route/angular-route.js"></script>
-  <script src="app.js"></script>
-  <script src="CombatManager/CombatManager.js"></script>
-  <script src="view2/view2.js"></script>
-  <script src="components/version/version.js"></script>
-  <script src="components/version/version-directive.js"></script>
-  <script src="components/version/interpolate-filter.js"></script>
-  <script src="scripts/jquery-1.12.0.min.js"></script>
-  <script src="scripts/bootstrap.js"></script>
+      <script src="bower_components/angular/angular.js"></script>
+      <script src="bower_components/angular-route/angular-route.js"></script>
+      <script src="app.js"></script>
+      <script src="components/version/version.js"></script>
+      <script src="components/version/version-directive.js"></script>
+      <script src="components/version/interpolate-filter.js"></script>
+      <script src="scripts/jquery-1.12.0.min.js"></script>
+      <script src="scripts/bootstrap.js"></script>
+    </div>
 </div>
 </body>
 </html>
