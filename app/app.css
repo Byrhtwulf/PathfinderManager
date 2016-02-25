@@ -1,9 +1,21 @@
 /* app css stylesheet */
 
-#initiative-tracker li{
-  font-weight:bold;
+#initiative-tracker-title{
+    font-size:24px;
 }
 
 #combat-manager ul{
   list-style:none;
+}
+
+#round-counter{
+   text-align:right;
+}
+
+#start-combat-button{
+    margin-right:10px;
+}
+
+#combat-manager-header, #combat-manager-content{
+    margin-bottom:20px;
 }

@@ -14,7 +14,6 @@ PathfinderManager.controller('CombatManager', ['$scope', '$filter', function($sc
         var item= {name:this.newCharacterName, initiative: this.newCharacterInitiative, statuses:[]};
         //var item = {name:"test", initiative: 1}
         $scope.data.push(item);
-        $scope.newCharacterName = "";
         $scope.newCharacterInitiative = 0;
     };
 

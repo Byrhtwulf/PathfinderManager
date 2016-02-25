@@ -10,58 +10,73 @@
   <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">-->
   <link rel="stylesheet" href="app.css">
   <link rel="stylesheet" href="css/bootstrap.css">
-    <!--<link rel="stylesheet" href="css/bootstrap-responsive.css">-->
+    <link rel="stylesheet" href="css/bootstrap-responsive.css">
   <!--<script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>-->
 </head>
 <body>
-<div class="container-fluid">
+<div class="container">
     <div class="row">
 
-    <div ng-controller="CombatManager" id=combat-manager" class="col-xs-12">
+        <div ng-controller="CombatManager" id=combat-manager class="col-xs-12">
 
-        <div>
-            <div id="initiative-tracker-title">Initiative Tracker</div>
-            <div id="round-counter">Round : {{roundCounter}}</div>
-            <ul id="initiative-tracker">
-                <li ng-repeat="character in data track by $index">{{character.name}}, {{character.initiative}}
-                <ul class="character-statuses">
-                    <li ng-repeat="status in character.statuses">
-                        {{status.name}}: {{status.duration + 1}} more rounds
-                    </li>
-                    <li>
-                        <form id="add-new-status">
-                            <div class="form-group">
-                                <label for="add-new-status-name">Status Name:</label>
-                                <input type="text" ng-model="newStatusName" id="add-new-status-name" name="status-name"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="add-new-status-duration">Status Duration:</label>
-                                <input type="number" ng-model="newStatusDuration" id=add-new-status-duration name="status-duration"/>
-                            </div>
-                            <input type="button" ng-click="addStatus($scope, $index)" value="Add Status" /><br/>
-                        </form>
+        <div class="row" id="combat-manager-header">
+            <div id="initiative-tracker-title" class="col-xs-3">
+                <span>Combat Manager</span>
+                <span><input type="button" id="start-combat-button" class="btn btn-primary" ng-click="startCombat()" value="Start Combat" /></span>
+            </div>
+            <div id="round-counter" class="col-xs-9">
+                <span><h2>Round : {{roundCounter}}</h2></span>
+            </div>
+        </div>
+        <div class="row" id="combat-manager-content">
+            <div class="col-xs-4" id="initiative-tracker">
+                <div><h4>Initiative Tracker</h4></div>
+                <ul>
+                    <li ng-repeat="character in data track by $index">{{character.name}} ({{character.initiative}})
+                    <ul class="character-statuses">
+                        <li ng-repeat="status in character.statuses">
+                            {{status.name}}: {{status.duration + 1}} more rounds
+                        </li>
+
+                        <li>
+                            <form id="add-new-status">
+                                <div class="form-group">
+                                    <label for="add-new-status-name">Status Name:</label>
+                                    <input type="text" ng-model="newStatusName" id="add-new-status-name"  class="form-control" name="status-name"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="add-new-status-duration">Status Duration:</label>
+                                    <input type="number" ng-model="newStatusDuration" id=add-new-status-duration class="form-control" name="status-duration"/>
+                                </div>
+                                <input type="button" ng-click="addStatus($scope, $index)" value="Add Status" /><br/>
+                            </form>
+                        </li>
+                    </ul>
                     </li>
                 </ul>
-                </li>
-            </ul>
-            <div>Characters Length: {{data.length}}</div>
+            </div>
+            <div class="col-xs-8" id="combat-manager-main-content">
+                <input type="button" class="btn btn-primary" ng-click="nextInitiative()" value="Next Initiative" /><br/>
+            </div>
         </div>
-        <pre>{{data}}</pre><br/><br/>
 
-        <form id="add-new-character">
-            <div class="form-group">
-                <label for="add-new-character-name">Name:</label>
-                <input type="text" ng-model="newCharacterName" id="add-new-character-name" name="character-name"/>
+        <div class="row" id="content-manager-utilities">
+            <div class="col-xs-12">
+                <div><h4>New Character</h4></div>
+                <form id="add-new-character">
+                    <div class="form-group">
+                        <label for="add-new-character-name">Name:</label>
+                        <input type="text" ng-model="newCharacterName" id="add-new-character-name" class="form-control" name="character-name"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="add-new-character-initiative">Initiative:</label>
+                        <input type="number" ng-model="newCharacterInitiative" id=add-new-character-initiative class="form-control" name="character-initiative" value="0"/>
+                    </div>
+                    <input type="button" class="btn btn-primary" ng-click="addItem()" value="Add Character" /><br/>
+                </form>
             </div>
-            <div class="form-group">
-                <label for="add-new-character-initiative">Initiative:</label>
-                <input type="number" ng-model="newCharacterInitiative" id=add-new-character-initiative name="character-initiative"/>
-            </div>
-            <input type="button" ng-click="addItem()" value="Add Character" /><br/>
-        </form>
-        <input type="button" ng-click="nextInitiative()" value="Next Initiative" /><br/>
-        <input type="button" ng-click="startCombat()" value="Start Combat" /><br/>
-    </div>
+        </div>
+
 
   <!-- In production use:
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
@@ -74,6 +89,7 @@
       <script src="components/version/interpolate-filter.js"></script>
       <script src="scripts/jquery-1.12.0.min.js"></script>
       <script src="scripts/bootstrap.js"></script>
+    </div>
     </div>
 </div>
 </body>
