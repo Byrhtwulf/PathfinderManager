@@ -47,7 +47,7 @@
                                         <span class="character-name">{{character.name}}</span> ({{character.currentHp}})
                                     </div><!--Display Character Name for each character-->
                                     <div class="col-xs-4">
-                                        <input type=number class="modify-hp-input form-control hpDifferenceInput" ng-model="character.hpDifference" ng-keydown="updateHp($event, character.hpDifference, character)">
+                                        <input type=number class="modify-hp-input form-control hpDifferenceInput" placeholder="HP" ng-model="character.hpDifference" ng-keydown="updateHp($event, character.hpDifference, character)">
                                     </div>
                                 </div>
                                 <div class="row">
@@ -67,7 +67,7 @@
                                         <form>
                                             <div class="form-group row">
                                                 <div class="col-xs-8">
-                                                    <input type="text" ng-model="newStatusName" placeholder="New Status" id="add-new-status-name" ng-keydown="addStatusToCharacter($event, $scope, $index)" class="form-control" name="status-name"/>
+                                                    <input type="text" ng-model="character.newStatusName" placeholder="New Status" id="add-new-status-name" ng-keydown="addStatusToCharacter($event, character)" class="form-control" name="status-name"/>
                                                 </div>
                                             </div>
                                             <!--<div class="form-group row">
@@ -117,7 +117,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-xs-12">
-                                            <input type="button" class="btn btn-primary" ng-click="addCharacterToInitiative()" value="Add Character" /><br/><!--Button to add character to initiative order-->
+                                            <input type="button" class="btn btn-primary" ng-click="addCharacterToInitiative(newCharacterName, newCharacterInitiative, newCharacterHp)" value="Add Character" /><br/><!--Button to add character to initiative order-->
                                         </div>
                                     </div>
                                 </form>

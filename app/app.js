@@ -7,9 +7,9 @@ PathfinderManager.controller('CombatManager', ['$scope', '$filter', 'hotkeys', '
     $scope.roundCounter = 1; //Current Number of Rounds
     $scope.numOfActions = 0; //Number of characters that have gone in current round
     //Stores characters in initiative order
-    $scope.characterData = [{name:"Boromir", initiative:17, currentHp: 78, hpDifference: "", statuses:[{name: "Dazed", duration: 1}, {name: "Stunned", duration: 3}]},
-        {name:"Arc", initiative:12, currentHp: 69, hpDifference:"", statuses:[{name: "Poisoned", duration: 8}, {name: "Stunned", duration: 3}]},
-        {name:"Rhaelyn", initiative:13, currentHp: 100,  hpDifference:"", statuses:[{name: "Dazzled", duration: 9}, {name: "Diseased", duration: 5}]}];
+    $scope.characterData = [{name:"Boromir", initiative:17, currentHp: 78, hpDifference: "", newStatus:"", statuses:[{name: "Dazed", duration: 1}, {name: "Stunned", duration: 3}]},
+        {name:"Arc", initiative:12, currentHp: 69, hpDifference:"", newStatus:"", statuses:[{name: "Poisoned", duration: 8}, {name: "Stunned", duration: 3}]},
+        {name:"Rhaelyn", initiative:13, currentHp: 100,  hpDifference:"", newStatus:"", statuses:[{name: "Dazzled", duration: 9}, {name: "Diseased", duration: 5}]}];
    // $scope.characterData=[];
 
     //List of characters to add group status to
@@ -18,11 +18,20 @@ PathfinderManager.controller('CombatManager', ['$scope', '$filter', 'hotkeys', '
     $scope.emptyArray = [];
 
     //Adds new character to initiative order
-    $scope.addCharacterToInitiative = function () {
-        var newCharacter= {name:this.newCharacterName, initiative: this.newCharacterInitiative, currentHp: this.newCharacterHp, hpDifference: "", statuses:[]};
-        //var item = {name:"test", initiative: 1}
-        $scope.characterData.push(newCharacter);
-        $scope.newCharacterInitiative = 0;
+    $scope.addCharacterToInitiative = function (newCharacterName, newCharacterInitiative, newCharacterHp) {
+        if (newCharacterName.trim() != "") {
+            var newCharacter = {
+                name: newCharacterName,
+                initiative: newCharacterInitiative,
+                currentHp: newCharacterHp,
+                hpDifference: "",
+                newStatus: "",
+                statuses: []
+            };
+            //var item = {name:"test", initiative: 1}
+            $scope.characterData.push(newCharacter);
+            $scope.newCharacterInitiative = 0;
+        }
     };
 
     $scope.removeCharacterFromInitiative = function(character){
@@ -31,16 +40,15 @@ PathfinderManager.controller('CombatManager', ['$scope', '$filter', 'hotkeys', '
     }
 
     //Adds new status to character
-    $scope.addStatusToCharacter = function ($event, $statusScope, $index) {
+    $scope.addStatusToCharacter = function ($event, character) {
         if ($event.keyCode==13) {
-            var statusArray = this.newStatusName.split("=");
+            var statusArray = character.newStatusName.split("=");
             if (statusArray[0] != null && statusArray[0] != ""
                 && statusArray[1] != null && statusArray[1] != "") {
                 var status = {name: statusArray[0], duration: parseInt(statusArray[1], 10)};
                 //var item = {name:"test", initiative: 1}
-                $scope.characterData[$index].statuses.push(status);
-                $statusScope.newStatusName = "";
-                $statusScope.newStatusDuration = 0;
+                character.statuses.push(status);
+                character.newStatusName = "";
             }
         }
     };
@@ -62,14 +70,16 @@ PathfinderManager.controller('CombatManager', ['$scope', '$filter', 'hotkeys', '
 
     //Adds new status to multiple characters
     $scope.addGroupStatus = function () {
-        var status= {name:this.newGroupStatusName, duration: this.newGroupStatusDuration};
+        if (this.newGroupStatusName != "") {
+            var status = {name: this.newGroupStatusName, duration: this.newGroupStatusDuration};
 
-        angular.forEach($scope.charactersToAddStatuses, function(statusList){
-            statusList.push(status);
-        });
-        $scope.newGroupStatusName = "";
-        $scope.newGroupStatusDuration = 0;
-        $scope.charactersToAddStatuses = angular.copy($scope.emptyArray);
+            angular.forEach($scope.charactersToAddStatuses, function (statusList) {
+                statusList.push(status);
+            });
+            $scope.newGroupStatusName = "";
+            $scope.newGroupStatusDuration = 0;
+        }
+        //$scope.charactersToAddStatuses = angular.copy($scope.emptyArray);
     };
 
     $scope.openAddGroupStatus = function(){
@@ -107,7 +117,7 @@ PathfinderManager.controller('CombatManager', ['$scope', '$filter', 'hotkeys', '
         //Decrement all statuses for current character in initiative order
         angular.forEach($scope.characterData[0].statuses, function(status){
             status.duration = status.duration -1;
-            if (status.duration == -1){
+            if (status.duration <= -1){
                 $scope.characterData[0].statuses.splice($scope.characterData[0].statuses.indexOf(status), 1);
             }
         });
