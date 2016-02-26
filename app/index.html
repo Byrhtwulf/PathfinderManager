@@ -94,9 +94,11 @@
                     <div class="col-xs-12">
                         <div class="row">
                             <input type="button" class="btn btn-primary" ng-click="nextInitiative()" value="Next Initiative" /><!--Button to move to next character in initiative order-->
+                            Add New Character: <input type="checkbox" ng-model="showCharacterCreator" aria-label="Toggle ngHide"><br/>
                         </div>
                         <div class="row" id="content-manager-utilities">
-                            <div class=col-xs-6 id="add-new-character"> <!--Begin form to add new character to initiative order-->
+
+                            <div class="col-xs-6" id="add-new-character" ng-show="showCharacterCreator"> <!--Begin form to add new character to initiative order-->
                                 <div class="row"><h4>New Character</h4></div>
                                 <form>
                                     <div class="form-group row">

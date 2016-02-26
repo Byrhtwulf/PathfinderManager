@@ -7,10 +7,10 @@ PathfinderManager.controller('CombatManager', ['$scope', '$filter', 'hotkeys', '
     $scope.roundCounter = 1; //Current Number of Rounds
     $scope.numOfActions = 0; //Number of characters that have gone in current round
     //Stores characters in initiative order
-    $scope.characterData = [{name:"Boromir", initiative:17, currentHp: 78, hpDifference: "", newStatus:"", statuses:[{name: "Dazed", duration: 1}, {name: "Stunned", duration: 3}]},
+    /*$scope.characterData = [{name:"Boromir", initiative:17, currentHp: 78, hpDifference: "", newStatus:"", statuses:[{name: "Dazed", duration: 1}, {name: "Stunned", duration: 3}]},
         {name:"Arc", initiative:12, currentHp: 69, hpDifference:"", newStatus:"", statuses:[{name: "Poisoned", duration: 8}, {name: "Stunned", duration: 3}]},
-        {name:"Rhaelyn", initiative:13, currentHp: 100,  hpDifference:"", newStatus:"", statuses:[{name: "Dazzled", duration: 9}, {name: "Diseased", duration: 5}]}];
-   // $scope.characterData=[];
+        {name:"Rhaelyn", initiative:13, currentHp: 100,  hpDifference:"", newStatus:"", statuses:[{name: "Dazzled", duration: 9}, {name: "Diseased", duration: 5}]}];*/
+    $scope.characterData=[];
 
     //List of characters to add group status to
     $scope.charactersToAddStatuses = [];
