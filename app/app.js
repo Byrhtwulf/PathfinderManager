@@ -69,24 +69,18 @@ PathfinderManager.controller('CombatManager', ['$scope', '$filter', 'hotkeys', '
         var modalInstance = $uibModal.open({
             animation: true,
             templateUrl: 'addGroupStatus.html',
-            controller:["$scope", "$uibModal", "newGroupStatusName", "newGroupStatusDuration", function($scope, $modalInstance, newGroupStatusName, newGroupStatusDuration) {
-               console.log(newGroupStatusName);
-                console.log(newGroupStatusDuration);
-            }],
+            controller:"AddGroupStatus",
             resolve: {
-                newGroupStatusName:function(){
-                    return $scope.newGroupStatusName;
-                },
-                newGroupStatusDuration: function(){
-                    return $scope.newGroupStatusDuration;
+                items: function () {
+                    return $scope.characterData;
                 }
-
-
             }
         });
         modalInstance.result.then(function () {
+        }, function () {
+            $log.info('Modal dismissed at: ' + new Date());
         });
-    }
+    };
 
     //Define hotkey for Next Initiative
     hotkeys.add({
@@ -129,3 +123,15 @@ PathfinderManager.controller('CombatManager', ['$scope', '$filter', 'hotkeys', '
 
 
 }]);
+
+PathfinderManager.controller("AddGroupStatus",function($scope, $uibModalInstance, items){
+    $scope.items = items;
+    console.log(items);
+    $scope.ok = function () {
+        $uibModalInstance.close();
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+});

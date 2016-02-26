@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">-->
   <link rel="stylesheet" href="app.css">
   <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/bootstrap-responsive.css">
+   <!-- <link rel="stylesheet" href="css/bootstrap-responsive.css">-->
     <link rel="stylesheet" href="css/hotkeys.css">
     <link rel="stylesheet" href="css/jquery-ui.css">
     <link rel="stylesheet" href="css/jquery-ui.structure.css">
@@ -38,7 +38,7 @@
                 <ul ui-sortable="characterSort" ng-model="characterData" >
                     <li class="character-data" ng-repeat="character in characterData track by $index">
                         <span><input class="delete-character" type="button" ng-click="removeCharacterFromInitiative(character)" value=""></span><!--Delete button for Character-->
-                        {{character.name}} (HP: {{character.currentHp}})<!--Display Character Name for each character-->
+                        <span class="character-name">{{character.name}}</span> (HP: {{character.currentHp}})<!--Display Character Name for each character-->
                         <span><input type=number class="modify-hp-input" ng-model="character.hpDifference" ng-keydown="updateHp($event, character.hpDifference, character)"></span>
                         <ul class="character-statuses">
                             <li ng-repeat="status in character.statuses"><!--Display all statuses for each character-->
@@ -46,18 +46,28 @@
                             </li>
 
                             <li><!--Begin Form to add new status to current character-->
-                                <div id="add-new-status">
-                                    <form>
-                                        <div class="form-group">
-                                            <label for="add-new-status-name">Status Name:</label>
-                                            <input type="text" ng-model="newStatusName" id="add-new-status-name"  class="form-control" name="status-name"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="add-new-status-duration">Status Duration:</label>
-                                            <input type="number" ng-model="newStatusDuration" id=add-new-status-duration class="form-control" name="status-duration"/>
-                                        </div>
-                                        <input type="button" ng-click="addStatusToCharacter($scope, $index)" value="Add Status" /><br/>
-                                    </form>
+                                <div class="row" id="add-new-status">
+                                    <div class="col-xs-12">
+                                        <form>
+                                            <div class="form-group row">
+                                                <div class="col-xs-12">
+                                                    <label for="add-new-status-name">Status Name:</label>
+                                                    <input type="text" ng-model="newStatusName" id="add-new-status-name"  class="form-control" name="status-name"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-xs-12">
+                                                    <label for="add-new-status-duration">Status Duration:</label>
+                                                    <input type="number" ng-model="newStatusDuration" id=add-new-status-duration class="form-control" name="status-duration"/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                    <input type="button" ng-click="addStatusToCharacter($scope, $index)" value="Add Status" /><br/>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </li><!--End Form to add new status to current character-->
                         </ul>
@@ -65,74 +75,118 @@
                 </ul>
             </div><!--End Initiative Tracker-->
             <div class="col-xs-6" id="combat-manager-main-content">
-                <input type="button" class="btn btn-primary" ng-click="nextInitiative()" value="Next Initiative" /><!--Button to move to next character in initiative order-->
-                <input type="button" class="btn btn-primary" ng-click="openAddGroupStatus()" value="Add Group Status" /><!--Button to open Add Group Status-->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="row">
+                            <input type="button" class="btn btn-primary" ng-click="nextInitiative()" value="Next Initiative" /><!--Button to move to next character in initiative order-->
+                        </div>
+                        <div class="row" id="content-manager-utilities">
+                            <div class=col-xs-6 id="add-new-character"> <!--Begin form to add new character to initiative order-->
+                                <div class="row"><h4>New Character</h4></div>
+                                <form>
+                                    <div class="form-group row">
+                                        <div class="col-xs-12">
+                                            <label for="add-new-character-name">Name:</label>
+                                            <input type="text" ng-model="newCharacterName" id="add-new-character-name" class="form-control" name="character-name"/><!--Input new character name-->
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-xs-6">
+                                            <label for="add-new-character-initiative">Initiative:</label>
+                                            <input type="number" ng-model="newCharacterInitiative" id=add-new-character-initiative class="form-control" name="character-initiative" value="0"/><!--Input new character initiative-->
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <label for="add-new-character-hp">Hp:</label>
+                                            <input type="number" ng-model="newCharacterHp" id=add-new-character-hp class="form-control" name="character-Hp" value="0"/><!--Input new character initiative-->
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <input type="button" class="btn btn-primary" ng-click="addCharacterToInitiative()" value="Add Character" /><br/><!--Button to add character to initiative order-->
+                                        </div>
+                                    </div>
+                                </form>
+                            </div><!--End form to add new character to initiative order-->
+                            <!--<script type="text/ng-template" id="addGroupStatus.html"><!--Begin form to add status to multiple characters
+                                <div class="modal-header"><h4>Add Group Status:</h4></div>
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="form-group">
+                                            <div class="">
+                                                <label for="add-new-group-status-name">Status Name:</label>
+                                                <input type="text" ng-model="newGroupStatusName" id="add-new-group-status-name"  class="form-control" name="status-name"/><!--Input new status name
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="">
+                                                <label for="add-new-group-status-duration">Status Duration:</label>
+                                                <input type="number" ng-model="newGroupStatusDuration" id=add-new-group-status-duration class="form-control" name="status-duration"/><!--Input new status duration
+                                            </div>
+                                        </div>
+                                        <div class="">
+                                            <div class="">
+                                                <ul class="status-to">
+                                                    <!--<label ng-repeat="character in data">-->
+                            <!--<li ng-repeat="character in characterData"><!--Display checkbox list for all characters in initiative order
+                                <input type="checkbox" checklist-model="charactersToAddStatuses"  checklist-value="character.statuses"> {{character.name}}
+                            </li>
+                        <!--</label>-
+                    </ul>
+                </div>
+            </div>
+            <div class="">
+                <div class="">
+                    <input type="button" class="btn btn-primary" ng-click="addGroupStatus()" value="Add" /><br/>
+                </div>
+            </div>
+        </form>
+    </div>
+</script><!--End form to add status to multiple characters-->
+
+                            <div class="col-xs-6" id="add-group-status"><!--Begin form to add status to multiple characters-->
+                                <div class="row"><h4>Add Group Status:</h4></div>
+                                <form>
+                                    <div class="form-group row">
+                                        <div class="col-xs-12">
+                                            <label for="add-new-group-status-name">Status Name:</label>
+                                            <input type="text" ng-model="newGroupStatusName" id="add-new-group-status-name"  class="form-control" name="status-name"/><!--Input new status name-->
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-xs-12">
+                                            <label for="add-new-group-status-duration">Status Duration:</label>
+                                            <input type="number" ng-model="newGroupStatusDuration" id=add-new-group-status-duration class="form-control" name="status-duration"/><!--Input new status duration-->
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <ul class="status-to">
+                                                <!--<label ng-repeat="character in data">-->
+                                                <li ng-repeat="character in characterData"><!--Display checkbox list for all characters in initiative order-->
+                                                    <input type="checkbox" checklist-model="charactersToAddStatuses"  checklist-value="character.statuses"> {{character.name}}
+                                                </li>
+                                                <!--</label>-->
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <input type="button" class="btn btn-primary" ng-click="addGroupStatus()" value="Add" /><br/>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div><!--End form to add status to multiple characters-->
+                        </div> <!--End Main Combat Manager Section -->
+                    <h4 id="notes-header">Additional Notes:</h4>
+
+                        <textarea id="notes" rows="30" ></textarea>
+                    </div>
+                </div>
+                <!--<input type="button" class="btn btn-primary" ng-click="openAddGroupStatus()" value="Add Group Status" /><!--Button to open Add Group Status-->
             </div>
         </div><!--End Combat Manager Main Content-->
 
-        <div class="row" id="content-manager-utilities">
-            <div class=col-xs-3 id="add-new-character"> <!--Begin form to add new character to initiative order-->
-                <div class="row"><h4>New Character</h4></div>
-                <form>
-                    <div class="form-group row">
-                        <div class="col-xs-12">
-                            <label for="add-new-character-name">Name:</label>
-                            <input type="text" ng-model="newCharacterName" id="add-new-character-name" class="form-control" name="character-name"/><!--Input new character name-->
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-xs-6">
-                            <label for="add-new-character-initiative">Initiative:</label>
-                            <input type="number" ng-model="newCharacterInitiative" id=add-new-character-initiative class="form-control" name="character-initiative" value="0"/><!--Input new character initiative-->
-                        </div>
-                        <div class="col-xs-6">
-                            <label for="add-new-character-hp">Hp:</label>
-                            <input type="number" ng-model="newCharacterHp" id=add-new-character-hp class="form-control" name="character-Hp" value="0"/><!--Input new character initiative-->
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <input type="button" class="btn btn-primary" ng-click="addCharacterToInitiative()" value="Add Character" /><br/><!--Button to add character to initiative order-->
-                        </div>
-                    </div>
-                </form>
-            </div><!--End form to add new character to initiative order-->
-            <script type="text/ng-template" id="addGroupStatus.html"><!--Begin form to add status to multiple characters-->
-                <div class="modal-header"><h4>Add Group Status:</h4></div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group">
-                            <div class="">
-                                <label for="add-new-group-status-name">Status Name:</label>
-                                <input type="text" ng-model="newGroupStatusName" id="add-new-group-status-name"  class="form-control" name="status-name"/><!--Input new status name-->
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="">
-                                <label for="add-new-group-status-duration">Status Duration:</label>
-                                <input type="number" ng-model="newGroupStatusDuration" id=add-new-group-status-duration class="form-control" name="status-duration"/><!--Input new status duration-->
-                            </div>
-                        </div>
-                        <div class="">
-                            <div class="">
-                                <ul class="status-to">
-                                    <!--<label ng-repeat="character in data">-->
-                                        <li ng-repeat="character in characterData"><!--Display checkbox list for all characters in initiative order-->
-                                            <input type="checkbox" checklist-model="charactersToAddStatuses"  checklist-value="character.statuses"> {{character.name}}
-                                        </li>
-                                    <!--</label>-->
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="">
-                            <div class="">
-                                <input type="button" class="btn btn-primary" ng-click="addGroupStatus()" value="Add" /><br/>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </script><!--End form to add status to multiple characters-->
-        </div> <!--End Main Combat Manager Section -->
+
 
 
   <!-- In production use:
