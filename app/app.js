@@ -1,26 +1,33 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
-var PathfinderManager = angular.module('PathfinderManager', ['cfp.hotkeys', "checklist-model"]);
+var PathfinderManager = angular.module('PathfinderManager', ['cfp.hotkeys', "checklist-model", "ui.sortable", "ngAnimate", "ui.bootstrap"]);
 
-PathfinderManager.controller('CombatManager', ['$scope', '$filter', 'hotkeys', function($scope, $filter, hotkeys) {
+PathfinderManager.controller('CombatManager', ['$scope', '$filter', 'hotkeys', '$uibModal', function($scope, $filter, hotkeys, $uibModal) {
     $scope.roundCounter = 1; //Current Number of Rounds
     $scope.numOfActions = 0; //Number of characters that have gone in current round
     //Stores characters in initiative order
-    $scope.characterData = [{name:"Boromir", initiative:17, statuses:[{name: "Dazed", duration: 1}, {name: "Stunned", duration: 3}]},
-        {name:"Arc", initiative:12, statuses:[{name: "Poisoned", duration: 8}, {name: "Stunned", duration: 3}]},
-        {name:"Rhaelyn", initiative:13, statuses:[{name: "Dazzled", duration: 9}, {name: "Diseased", duration: 5}]}];
+    $scope.characterData = [{name:"Boromir", initiative:17, currentHp: 78, hpDifference: "", statuses:[{name: "Dazed", duration: 1}, {name: "Stunned", duration: 3}]},
+        {name:"Arc", initiative:12, currentHp: 69, hpDifference:"", statuses:[{name: "Poisoned", duration: 8}, {name: "Stunned", duration: 3}]},
+        {name:"Rhaelyn", initiative:13, currentHp: 100,  hpDifference:"", statuses:[{name: "Dazzled", duration: 9}, {name: "Diseased", duration: 5}]}];
 
     //List of characters to add group status to
     $scope.charactersToAddStatuses = [];
 
+    $scope.emptyArray = [];
+
     //Adds new character to initiative order
     $scope.addCharacterToInitiative = function () {
-        var newCharacter= {name:this.newCharacterName, initiative: this.newCharacterInitiative, statuses:[]};
+        var newCharacter= {name:this.newCharacterName, initiative: this.newCharacterInitiative, currentHp: this.newCharacterHp, hpDifference: "", statuses:[]};
         //var item = {name:"test", initiative: 1}
         $scope.characterData.push(newCharacter);
         $scope.newCharacterInitiative = 0;
     };
+
+    $scope.removeCharacterFromInitiative = function(character){
+        var index = $scope.characterData.indexOf(character);
+        $scope.characterData.splice(index, 1);
+    }
 
     //Adds new status to character
     $scope.addStatusToCharacter = function ($statusScope, $index) {
@@ -31,17 +38,55 @@ PathfinderManager.controller('CombatManager', ['$scope', '$filter', 'hotkeys', f
         $statusScope.newStatusDuration = 0;
     };
 
+    //Updates hp of character on Enter key
+    $scope.updateHp = function($event, hpDifference, character){
+        if ($event.keyCode == 13){
+            character.currentHp = character.currentHp + hpDifference;
+            character.hpDifference="";
+        }
+    }
+
+
+    //Settings for Character Drag and Drop
+    $scope.characterSort = {
+        containment:"#initiative-tracker",
+        cursor:"move"
+    }
+
     //Adds new status to multiple characters
     $scope.addGroupStatus = function () {
-        var status= {name:this.newStatusNameTo, duration: this.newStatusDurationTo};
+        var status= {name:this.newGroupStatusName, duration: this.newGroupStatusDuration};
 
         angular.forEach($scope.charactersToAddStatuses, function(statusList){
             statusList.push(status);
         });
-        $scope.newStatusNameTo = "";
-        $scope.newStatusDurationTo = 0;
-        $scope.charactersToAddStatuses = [];
+        $scope.newGroupStatusName = "";
+        $scope.newGroupStatusDuration = 0;
+        $scope.charactersToAddStatuses = angular.copy($scope.emptyArray);
     };
+
+    $scope.openAddGroupStatus = function(){
+        var modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'addGroupStatus.html',
+            controller:["$scope", "$uibModal", "newGroupStatusName", "newGroupStatusDuration", function($scope, $modalInstance, newGroupStatusName, newGroupStatusDuration) {
+               console.log(newGroupStatusName);
+                console.log(newGroupStatusDuration);
+            }],
+            resolve: {
+                newGroupStatusName:function(){
+                    return $scope.newGroupStatusName;
+                },
+                newGroupStatusDuration: function(){
+                    return $scope.newGroupStatusDuration;
+                }
+
+
+            }
+        });
+        modalInstance.result.then(function () {
+        });
+    }
 
     //Define hotkey for Next Initiative
     hotkeys.add({

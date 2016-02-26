@@ -23,3 +23,17 @@
 .status-to{
     width:100%;
 }
+
+.character-data{
+    margin-bottom:20px;
+}
+
+.delete-character{
+    background-image:url(images/delete.jpg);
+    background-repeat:no-repeat;
+    background-size:contain;
+    cursor:pointer;
+    border:none;
+    height:20px;
+    width:20px;
+}
