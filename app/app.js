@@ -4,30 +4,35 @@
 var PathfinderManager = angular.module('PathfinderManager', ['cfp.hotkeys', "checklist-model"]);
 
 PathfinderManager.controller('CombatManager', ['$scope', '$filter', 'hotkeys', function($scope, $filter, hotkeys) {
-    $scope.roundCounter = 1;
-    $scope.numOfActions = 0;
-    $scope.data = [{name:"Boromir", initiative:17, statuses:[{name: "Dazed", duration: 1}, {name: "Stunned", duration: 3}]},
+    $scope.roundCounter = 1; //Current Number of Rounds
+    $scope.numOfActions = 0; //Number of characters that have gone in current round
+    //Stores characters in initiative order
+    $scope.characterData = [{name:"Boromir", initiative:17, statuses:[{name: "Dazed", duration: 1}, {name: "Stunned", duration: 3}]},
         {name:"Arc", initiative:12, statuses:[{name: "Poisoned", duration: 8}, {name: "Stunned", duration: 3}]},
         {name:"Rhaelyn", initiative:13, statuses:[{name: "Dazzled", duration: 9}, {name: "Diseased", duration: 5}]}];
 
+    //List of characters to add group status to
     $scope.charactersToAddStatuses = [];
 
-    $scope.addItem = function () {
-        var item= {name:this.newCharacterName, initiative: this.newCharacterInitiative, statuses:[]};
+    //Adds new character to initiative order
+    $scope.addCharacterToInitiative = function () {
+        var newCharacter= {name:this.newCharacterName, initiative: this.newCharacterInitiative, statuses:[]};
         //var item = {name:"test", initiative: 1}
-        $scope.data.push(item);
+        $scope.characterData.push(newCharacter);
         $scope.newCharacterInitiative = 0;
     };
 
-    $scope.addStatus = function ($statusScope, $index) {
+    //Adds new status to character
+    $scope.addStatusToCharacter = function ($statusScope, $index) {
         var status= {name:this.newStatusName, duration: this.newStatusDuration};
         //var item = {name:"test", initiative: 1}
-        $scope.data[$index].statuses.push(status);
+        $scope.characterData[$index].statuses.push(status);
         $statusScope.newStatusName = "";
         $statusScope.newStatusDuration = 0;
     };
 
-    $scope.addStatusTo = function () {
+    //Adds new status to multiple characters
+    $scope.addGroupStatus = function () {
         var status= {name:this.newStatusNameTo, duration: this.newStatusDurationTo};
 
         angular.forEach($scope.charactersToAddStatuses, function(statusList){
@@ -38,6 +43,7 @@ PathfinderManager.controller('CombatManager', ['$scope', '$filter', 'hotkeys', f
         $scope.charactersToAddStatuses = [];
     };
 
+    //Define hotkey for Next Initiative
     hotkeys.add({
         combo: 'shift+space',
         description: 'Advance to next character',
@@ -46,28 +52,34 @@ PathfinderManager.controller('CombatManager', ['$scope', '$filter', 'hotkeys', f
         }
     })
 
+    //Moves to next character in initiative order
     $scope.nextInitiative = function(){
 
-        $scope.data.push($scope.data.shift());
+        //Move first character to bottom of initiative
+        $scope.characterData.push($scope.characterData.shift());
 
-
-        angular.forEach($scope.data[0].statuses, function(status){
+        //Decrement all statuses for current character in initiative order
+        angular.forEach($scope.characterData[0].statuses, function(status){
             status.duration = status.duration -1;
             if (status.duration == -1){
-                $scope.data[0].statuses.splice($scope.data[0].statuses.indexOf(status), 1);
+                $scope.characterData[0].statuses.splice($scope.characterData[0].statuses.indexOf(status), 1);
             }
         });
 
+        //Increases number of characters that have gone in current round and checks to see if round is over
         $scope.numOfActions = $scope.numOfActions + 1;
-        if ($scope.numOfActions == $scope.data.length){
+        if ($scope.numOfActions == $scope.characterData.length){
             $scope.numOfActions = 0;
             $scope.roundCounter = $scope.roundCounter + 1;
         }
     };
 
+    //Starts combat
     $scope.startCombat = function(){
+        //Set Rounds = 1
         $scope.roundCounter = 1;
-        $scope.data = $filter('orderBy')($scope.data, "-initiative");
+        //Order list of characters by initiative
+        $scope.characterData = $filter('orderBy')($scope.characterData, "-initiative");
     }
 
 
