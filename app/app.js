@@ -7,10 +7,10 @@ PathfinderManager.controller('CombatManager', ['$scope', '$filter', 'hotkeys', '
     $scope.roundCounter = 1; //Current Number of Rounds
     $scope.numOfActions = 0; //Number of characters that have gone in current round
     //Stores characters in initiative order
-    /*$scope.characterData = [{name:"Boromir", initiative:17, currentHp: 78, hpDifference: "", statuses:[{name: "Dazed", duration: 1}, {name: "Stunned", duration: 3}]},
+    $scope.characterData = [{name:"Boromir", initiative:17, currentHp: 78, hpDifference: "", statuses:[{name: "Dazed", duration: 1}, {name: "Stunned", duration: 3}]},
         {name:"Arc", initiative:12, currentHp: 69, hpDifference:"", statuses:[{name: "Poisoned", duration: 8}, {name: "Stunned", duration: 3}]},
-        {name:"Rhaelyn", initiative:13, currentHp: 100,  hpDifference:"", statuses:[{name: "Dazzled", duration: 9}, {name: "Diseased", duration: 5}]}];*/
-    $scope.characterData=[];
+        {name:"Rhaelyn", initiative:13, currentHp: 100,  hpDifference:"", statuses:[{name: "Dazzled", duration: 9}, {name: "Diseased", duration: 5}]}];
+   // $scope.characterData=[];
 
     //List of characters to add group status to
     $scope.charactersToAddStatuses = [];
@@ -31,12 +31,18 @@ PathfinderManager.controller('CombatManager', ['$scope', '$filter', 'hotkeys', '
     }
 
     //Adds new status to character
-    $scope.addStatusToCharacter = function ($statusScope, $index) {
-        var status= {name:this.newStatusName, duration: this.newStatusDuration};
-        //var item = {name:"test", initiative: 1}
-        $scope.characterData[$index].statuses.push(status);
-        $statusScope.newStatusName = "";
-        $statusScope.newStatusDuration = 0;
+    $scope.addStatusToCharacter = function ($event, $statusScope, $index) {
+        if ($event.keyCode==13) {
+            var statusArray = this.newStatusName.split("=");
+            if (statusArray[0] != null && statusArray[0] != ""
+                && statusArray[1] != null && statusArray[1] != "") {
+                var status = {name: statusArray[0], duration: parseInt(statusArray[1], 10)};
+                //var item = {name:"test", initiative: 1}
+                $scope.characterData[$index].statuses.push(status);
+                $statusScope.newStatusName = "";
+                $statusScope.newStatusDuration = 0;
+            }
+        }
     };
 
     //Updates hp of character on Enter key

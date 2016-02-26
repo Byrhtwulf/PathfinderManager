@@ -29,7 +29,7 @@
 }
 
 .delete-character{
-    background-image:url(images/delete.jpg);
+    background-image:url(images/deletered.png);
     background-repeat:no-repeat;
     background-size:contain;
     cursor:pointer;
@@ -48,7 +48,23 @@
     margin-top:20px;
 }
 
+.character-name-container{
+    padding-top:7px;
+}
+
 .character-name{
     font-weight:bold;
     font-size:16px;
+    padding-top:3px;
+}
+
+#initiative-tracker ul{
+    padding-left:0px;
+}
+
+.character-data{
+    border: 1px solid #d3d3d3;
+    background: #e6e6e6 url("images/list-style-image.png") 50% 50% repeat-x;
+    font-weight: normal;
+    color: #555555;
 }
