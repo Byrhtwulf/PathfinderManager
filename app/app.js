@@ -69,7 +69,7 @@ PathfinderManager.controller('CombatManager', ['$scope', '$filter', 'hotkeys', '
     }
 
     //Adds new status to multiple characters
-    $scope.addGroupStatus = function () {
+    /*$scope.addGroupStatus = function () {
         if (this.newGroupStatusName != "") {
             var status = {name: this.newGroupStatusName, duration: this.newGroupStatusDuration};
 
@@ -80,23 +80,25 @@ PathfinderManager.controller('CombatManager', ['$scope', '$filter', 'hotkeys', '
             $scope.newGroupStatusDuration = 0;
         }
         //$scope.charactersToAddStatuses = angular.copy($scope.emptyArray);
-    };
+    };*/
 
+    //Create Modal Window for adding Group Status
     $scope.openAddGroupStatus = function(){
         var modalInstance = $uibModal.open({
             animation: true,
             templateUrl: 'addGroupStatus.html',
             controller:"AddGroupStatus",
+            scope:$scope,
             resolve: {
                 items: function () {
                     return $scope.characterData;
                 }
             }
         });
-        modalInstance.result.then(function () {
-        }, function () {
-            $log.info('Modal dismissed at: ' + new Date());
-        });
+        //modalInstance.result.then(function () {
+        //}, function () {
+        //    $log.info('Modal dismissed at: ' + new Date());
+        //});
     };
 
     //Define hotkey for Next Initiative
@@ -143,7 +145,7 @@ PathfinderManager.controller('CombatManager', ['$scope', '$filter', 'hotkeys', '
 
 PathfinderManager.controller("AddGroupStatus",function($scope, $uibModalInstance, items){
     $scope.items = items;
-    console.log(items);
+
     $scope.ok = function () {
         $uibModalInstance.close();
     };
@@ -151,4 +153,17 @@ PathfinderManager.controller("AddGroupStatus",function($scope, $uibModalInstance
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
+
+    $scope.addGroupStatus = function(){
+        if($scope.newGroupStatusName!=""){
+            var status = {name: $scope.newGroupStatusName, duration: parseInt($scope.newGroupStatusDuration,10)};
+            angular.forEach($scope.charactersToAddStatuses, function(statusList){
+                statusList.push(status);
+            });
+        };
+        $scope.charactersToAddStatuses = [];
+        $uibModalInstance.close();
+    };
+
+
 });
