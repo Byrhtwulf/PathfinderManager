@@ -12,6 +12,10 @@
    text-align:right;
 }
 
+#combat-manager-utilities{
+    margin-bottom:20px;
+}
+
 #combat-manager-utilities .btn{
     margin-right:15px;
     margin-top:15px;
@@ -69,6 +73,10 @@
     color: #555555;
 }
 
-#add-new-character-form{
+#add-new-character-form, #add-main-characters{
     margin-bottom:20px;
+}
+
+.main-character{
+    margin-bottom:10px;
 }

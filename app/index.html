@@ -37,13 +37,14 @@
             </div>
             <div class="col-xs-11">
                 <input type="button" id="start-combat-button" class="btn btn-success" ng-click="startCombat()" value="Start Combat" /><!--Start Combat Button-->
-                <input type="button" class="btn btn-info" ng-click="nextInitiative()" value="Next Initiative" /><!--Button to move to next character in initiative order-->
+                <input type="button" class="btn btn-info" ng-click="toggleAddMainCharacters()" value="Add Main Characters"/> <!--Button to show add main character form-->
                 <input type="button" class="btn btn-info" ng-click="toggleAddNewCharacterForm()" value="Add New Characters"/> <!--Button to show add new character form-->
+                <input type="button" class="btn btn-info" ng-click="nextInitiative()" value="Next Initiative" /><!--Button to move to next character in initiative order-->
                 <input type="button" class="btn btn-warning" ng-click="openAddGroupStatus()" value="Add Group Status"/><!--Button to add status to multiple characters-->
             </div>
         </div>
-        <div class="row" id="add-new-character-form">
-            <div class="col-xs-3" id="add-new-character" ng-show="showAddNewCharacterForm""> <!--Begin form to add new character to initiative order-->
+        <div class="row" id="add-new-character-form" ng-show="showAddNewCharacterForm">
+            <div class="col-xs-3" id="add-new-character"> <!--Begin form to add new character to initiative order-->
                 <div ><h4>New Character Group</h4></div>
                 <form>
                     <div class="form-group row">
@@ -73,8 +74,18 @@
                     </div>
                 </form>
             </div><!--End form to add new character to initiative order-->
-
         </div>
+
+        <div class="row" id="add-main-characters" ng-show="showAddMainCharacters">
+            <div class="col-xs-3"> <!--Begin form to add main characters to initiative order-->
+            <div ><h4>Add Main Characters</h4></div>
+                <div class="row main-character" ng-repeat="mainCharacter in mainCharacters">
+                    <div class="col-xs-6"><b>{{mainCharacter}}</b></div>
+                    <div class="col-xs-6"><input type=number class="form-control" ng-model="newCharacterInitiative" ng-keydown="addMainCharacter($event, mainCharacter, newCharacterInitiative)"></div>
+                </div>
+            </div><!--End form to add main characters to initiative order-->
+        </div>
+
         <div class="row" id="combat-manager-content"><!--Begin Combat Manager Main Content - contains initiative tracker and character content-->
             <div class="col-xs-6" id="initiative-tracker"><!--Begin Initiative Tracker-->
                 <ul ui-sortable="characterSort" ng-model="characterData" >
@@ -157,11 +168,12 @@
                     </ul>
                 </div>
 
-                <button class="btn btn-primary" type="button" ng-click="addGroupStatus()">Add Status</button>
+                <button class="btn btn-primary" type="button" ng-click="addGroupStatus(newGroupStatusName, newGroupStatusDuration)">Add Status</button>
                 <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
             </div>
 
         </script><!--End form to add status to multiple characters-->
+
 
 
   <!-- In production use:
