@@ -93,14 +93,14 @@
                                             <input type=number class="modify-hp-input form-control hpDifferenceInput" placeholder="HP" ng-model="character.hpDifference" ng-keydown="updateHp($event, character.hpDifference, character)">
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row" ng-repeat="status in character.statuses">
                                         <div class="col-xs-1"></div>
-                                        <ul class="character-statuses col-xs-10">
-
-                                            <li ng-repeat="status in character.statuses"><!--Display all statuses for each character-->
-                                                {{status.name}}: {{status.duration + 1}} rounds
-                                            </li>
-                                        </ul>
+                                        <div class="col-xs-1"><!--Delete button for Status-->
+                                            <input class="delete-character" type="button" ng-click="removeStatusFromCharacter(character, status)" value="">
+                                        </div>
+                                        <div class="col-xs-10" class="character-status">
+                                            {{status.name}}: {{status.duration + 1}} rounds
+                                        </div>
                                     </div>
                                 </div>
 
@@ -167,21 +167,21 @@
   <!-- In production use:
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
   -->
-            <script src="scripts/jquery-1.12.0.min.js"></script>
-            <script src="scripts/jquery-ui.js"></script>
-      <script src="bower_components/angular/angular.js"></script>
-      <script src="bower_components/angular-route/angular-route.js"></script>
-      <script src="scripts/angular-animate.js"></script>
-      <script src="app.js"></script>
-      <script src="components/version/version.js"></script>
-      <script src="components/version/version-directive.js"></script>
-      <script src="components/version/interpolate-filter.js"></script>
-      <script src="scripts/bootstrap.js"></script>
-            <script src="scripts/mousetrap.min.js"></script>
-            <script src="scripts/checklist-model.js"></script>
-            <script src="scripts/hotkeys.js"></script>
-            <script src="scripts/sortable.js"></script>
-            <script src="scripts/ui-bootstrap-tpls-1.1.2.js"></script>
+        <script src="scripts/jquery-1.12.0.min.js"></script>
+        <script src="scripts/jquery-ui.js"></script>
+        <script src="bower_components/angular/angular.js"></script>
+        <script src="bower_components/angular-route/angular-route.js"></script>
+        <script src="scripts/angular-animate.js"></script>
+        <script src="app.js"></script>
+        <script src="components/version/version.js"></script>
+        <script src="components/version/version-directive.js"></script>
+        <script src="components/version/interpolate-filter.js"></script>
+        <script src="scripts/bootstrap.js"></script>
+        <script src="scripts/mousetrap.min.js"></script>
+        <script src="scripts/checklist-model.js"></script>
+        <script src="scripts/hotkeys.js"></script>
+        <script src="scripts/sortable.js"></script>
+        <script src="scripts/ui-bootstrap-tpls-1.1.2.js"></script>
     </div>
     </div>
 </div>

@@ -73,13 +73,20 @@ PathfinderManager.controller('CombatManager', ['$scope', '$filter', 'hotkeys', '
             var statusArray = character.newStatusName.split("=");
             if (statusArray[0] != null && statusArray[0] != ""
                 && statusArray[1] != null && statusArray[1] != "") {
-                var status = {name: statusArray[0], duration: parseInt(statusArray[1], 10)};
+                var statusName = statusArray[0].charAt(0).toUpperCase() +statusArray[0].slice(1);
+                var statusDuration = parseInt(statusArray[1], 10)
+                var status = {name:statusName, duration:statusDuration };
                 //var item = {name:"test", initiative: 1}
                 character.statuses.push(status);
                 character.newStatusName = "";
             }
         }
     };
+
+    $scope.removeStatusFromCharacter = function(character, status){
+        var statusIndex = character.statuses.indexOf(status);
+        character.statuses.splice(statusIndex, 1);
+    }
 
     //Updates hp of character on Enter key
     $scope.updateHp = function($event, hpDifference, character){
