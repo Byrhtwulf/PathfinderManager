@@ -4,22 +4,33 @@
 var PathfinderManager = angular.module('PathfinderManager', ['cfp.hotkeys', "checklist-model", "ui.sortable", "ngAnimate", "ui.bootstrap"]);
 
 PathfinderManager.controller('CombatManager', ['$scope', '$filter', 'hotkeys', '$uibModal', function($scope, $filter, hotkeys, $uibModal) {
+    $scope.diceList = [
+        {diceValue:20, diceCount:"", showDiceHistory:false, diceBonus:"", rolls:[]},
+        {diceValue:12, diceCount:"", diceBonus:"", rolls:[]},
+        {diceValue:10, diceCount:"", diceBonus:"", rolls:[]},
+        {diceValue:8, diceCount:"", diceBonus:"", rolls:[]},
+        {diceValue:6, diceCount:"", diceBonus:"", rolls:[]},
+        {diceValue:4, diceCount:"", diceBonus:"", rolls:[]},
+        {diceValue:100, diceCount:"", diceBonus:"", rolls:[]}
+    ]
     $scope.roundCounter = 1; //Current Number of Rounds
     $scope.numOfActions = 0; //Number of characters that have gone in current round
     //Stores characters in initiative order
-    /*$scope.characterData = [{characters:[{name:"Boromir", currentHp: 78, hpDifference: "", newStatus:"", statuses:[{name: "Dazed", duration: 1}, {name: "Stunned", duration: 3}]}], initiative:17,},
+    $scope.characterData = [{characters:[{name:"Boromir", currentHp: 78, hpDifference: "", newStatus:"", statuses:[{name: "Dazed", duration: 1}, {name: "Stunned", duration: 3}]}], initiative:17,},
         {characters:[{name:"Arc", currentHp: 69, hpDifference:"", newStatus:"", statuses:[{name: "Poisoned", duration: 8}, {name: "Stunned", duration: 3}]}], initiative:12,},
         {characters:[{name:"Rhaelyn", currentHp: 100,  hpDifference:"", newStatus:"", statuses:[{name: "Dazzled", duration: 9}, {name: "Diseased", duration: 5}]}], initiative:13,},
         {characters:[{name:"Skirmisher 1", currentHp: 100,  hpDifference:"", newStatus:"", statuses:[{name: "Dazzled", duration: 9}, {name: "Diseased", duration: 5}]},
                     {name:"Skirmisher 2", currentHp: 100,  hpDifference:"", newStatus:"", statuses:[{name: "Dazzled", duration: 9}, {name: "Diseased", duration: 5}]},
                     {name:"Skirmisher 3", currentHp: 100,  hpDifference:"", newStatus:"", statuses:[{name: "Dazzled", duration: 9}, {name: "Diseased", duration: 5}]}], initiative:10,
-        }];*/
-    $scope.characterData=[];
+        }];
+    //$scope.characterData=[];
 
     $scope.mainCharacters = ["Arc", "Boromir", "Kabuto", "Rhaelyn"];
 
     //List of characters to add group status to
     $scope.charactersToAddStatuses = [];
+
+    $scope.emptyArray = [];
 
     //Boolean value to determine if Add New Character Form should show
     $scope.toggleAddNewCharacterForm = function(){
@@ -28,6 +39,14 @@ PathfinderManager.controller('CombatManager', ['$scope', '$filter', 'hotkeys', '
 
     $scope.toggleAddMainCharacters = function(){
         $scope.showAddMainCharacters = !$scope.showAddMainCharacters;
+    }
+
+    $scope.toggleDiceHistory = function(dice){
+        if (dice.showDiceHistory == true){
+            dice.showDiceHistory =false;
+        }else{
+            dice.showDiceHistory = true;
+        }
     }
 
     $scope.addMainCharacter = function ($event, mainCharacterName, mainCharacterInitiative){
@@ -176,6 +195,58 @@ PathfinderManager.controller('CombatManager', ['$scope', '$filter', 'hotkeys', '
         $scope.roundCounter = 1;
         //Order list of characters by initiative
         $scope.characterData = $filter('orderBy')($scope.characterData, "-initiative");
+    }
+
+    $scope.rollDice = function(dice){
+        var total = 0;
+        if (dice.diceCount == undefined ||  dice.diceCount == ""){
+            dice.diceCount = 1;
+        }
+        if (dice.diceBonus == undefined || dice.diceBonus == ""){
+            dice.diceBonus = 0;
+        }
+        var newRoll = $scope.createNewDice(dice.diceValue, dice.diceCount, dice.diceBonus);
+        for (var i = 0; i < dice.diceCount; i++){
+
+            var currentRoll = Math.floor(Math.random() * dice.diceValue) + 1;
+            total += currentRoll;
+
+            var oneDice = $scope.createNewDice(dice.diceValue, 1, 0);
+            oneDice.currentRoll = currentRoll;
+            oneDice.currentTotal = currentRoll + dice.diceBonus;
+            newRoll.rolls.push(oneDice);
+        }
+        newRoll.currentRoll = total;
+        total = total + dice.diceBonus;
+        newRoll.currentTotal = total;
+        dice.rolls.push(newRoll);
+
+        if (dice.diceCount == 1){
+            dice.diceCount = "";
+        }
+        if (dice.diceBonus == 0){
+            dice.diceBonus = "";
+        }
+
+
+    }
+
+    $scope.createNewDice= function(diceValue, diceCount, diceBonus){
+        return {diceValue:diceValue, diceCount:diceCount, diceBonus:diceBonus, currentRoll: 0, currentTotal: 0, rolls:[]};
+    }
+
+    $scope.clearDiceRolls = function(dice){
+        dice.currentTotal = 0;
+        dice.diceCount = "";
+        dice.diceBonus = "";
+        dice.currentRoll = 0;
+        dice.rolls = (angular.copy($scope.emptyArray));
+    }
+
+    $scope.clearAllDice = function(){
+        angular.forEach($scope.diceList, function(dice){
+            $scope.clearDiceRolls(dice);
+        })
     }
 
 

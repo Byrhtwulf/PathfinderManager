@@ -25,8 +25,8 @@
     margin-bottom:20px;
 }
 
-.status-to{
-    width:100%;
+.character-status{
+    padding-left:20px;
 }
 
 .character-data{
@@ -79,4 +79,12 @@
 
 .main-character{
     margin-bottom:10px;
+}
+
+.roll-dice{
+    margin-bottom:10px;
+}
+
+.show-breakdown-checkbox{
+    margin-left:5px;
 }
