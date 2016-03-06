@@ -46,6 +46,7 @@
 #notes{
     width:100%;
     height:100%;
+    margin-top:40px;
 }
 
 #notes-header{
@@ -87,4 +88,31 @@
 
 .show-breakdown-checkbox{
     margin-left:5px;
+}
+
+.dice-roll, .dice-total{
+    margin-top:9px;
+}
+
+.character-header{
+    border-top:1px solid black;
+    border-bottom:1px solid black;
+    font-style: italic;
+    text-transform: uppercase;
+    margin-top:10px;
+    margin-bottom:10px;
+}
+
+.character-attacks{
+    margin-bottom:5px;
+}
+
+.critical-attack{
+    color:green;
+}
+.critical-miss{
+    color:red;
+}
+.character-additional-info{
+    margin-bottom:10px;
 }

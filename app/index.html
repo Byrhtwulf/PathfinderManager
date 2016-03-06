@@ -88,7 +88,7 @@
         </div>
 
         <div class="row" id="combat-manager-content"><!--Begin Combat Manager Main Content - contains initiative tracker and character content-->
-            <div class="col-xs-5" id="initiative-tracker"><!--Begin Initiative Tracker-->
+            <div class="col-xs-4" id="initiative-tracker"><!--Begin Initiative Tracker-->
                 <ul ui-sortable="characterSort" ng-model="characterData" >
                     <li class="character-data" ng-repeat="group in characterData">
                         <div class="row">
@@ -133,11 +133,129 @@
                     </li>
                 </ul>
             </div><!--End Initiative Tracker-->
-            <div class="col-xs-3" id="combat-manager-main-content">
-                <div class="row">
+            <div class="col-xs-4" id="combat-manager-main-content">
+                <div class="row" id="character-info">
                     <div class="col-xs-12">
+                        <div class="row" id="character-heading">
+                            <div class="col-xs-12">
+                                <b>{{currentCharacter.name}}</b> - {{currentCharacter.type}}
+                            </div>
+                        </div>
+                        <!--<div class="row" id="character-initiative">
+                            <div class="col-xs-12">
+                                <b>Initiative:</b> {{currentCharacter.initiative}}
+                            </div>
+                        </div>-->
+                        <div class="row" id="character-senses">
+                            <div class="col-xs-12">
+                                <b>Senses:</b> {{currentCharacter.senses}}
+                            </div>
+                        </div>
+                        <div class="row character-header">
+                            <div class="col-xs-12">
+                                Defence
+                            </div>
+                        </div>
+                        <div class="row" id="character-ac">
+                            <div class="col-xs-12">
+                                <b>AC:</b> {{currentCharacter.AC}}
+                            </div>
+                        </div>
+                        <div class="row" id="character-hp">
+                            <div class="col-xs-12">
+                                <b>HP:</b> {{currentCharacter.HP}}
+                            </div>
+                        </div>
+                        <div class="row" id="character-saves">
+                            <div class="col-xs-12">
+                                <b>Fort:</b> {{currentCharacter.fortitude}}, <b>Ref:</b> {{currentCharacter.reflex}}, <b>Will:</b> {{currentCharacter.will}}
+                            </div>
+                        </div>
+                        <div class="row" id="character-defences">
+                            <div class="col-xs-12">
+                                <b>Defences:</b> {{currentCharacter.defences}}
+                            </div>
+                        </div>
+                        <div class="row" id="character-CMD">
+                            <div class="col-xs-12">
+                                <b>CMD:</b> +{{currentCharacter.CMD}}
+                            </div>
+                        </div>
+                        <div class="row character-header">
+                            <div class="col-xs-12">
+                                Attack
+                            </div>
+                        </div>
+                        <div class="row" id="character-speed">
+                            <div class="col-xs-12">
+                                <b>Speed:</b> {{currentCharacter.speed}}
+                            </div>
+                        </div>
                         <div class="row">
-                            <textarea id="notes" rows="30" placeholder="Additional Notes..."></textarea>
+                            <div class="col-xs-12">
+                                <b>Melee:</b>
+                                <div class="character-attacks" ng-repeat="group in currentCharacter.attacks">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <i>{{group.groupName}}: </i>
+                                            <input type="button" class="roll-attack-group btn btn-secondary btn-sm" ng-click="rollAttack(group)" value="Attack" />
+                                        </div>
+                                    </div>
+                                    <div class="row" ng-repeat="attack in group.groupAttacks">
+                                        <div class="col-xs-6">{{attack.name}}
+                                        + {{attack.bonusToHit}} ({{attack.diceCount}}d{{attack.diceValue}}
+                                        + {{attack.diceBonus}}{{attack.additionalEffects != "" ?  " plus "+attack.additionalEffects : ""}})
+                                        </div>
+                                        <div ng-class="{'col-xs-6':true, 'critical-attack': attack.currentRollToHit >= attack.lowerCriticalRange, 'critical-miss':attack.currentRollToHit == 1}">
+                                            <div>{{attack.currentTotalToHit}}({{attack.currentRollToHit}}) to hit, {{attack.currentDamage}} damage{{attack.additionalEffects != "" ?  " plus "+attack.additionalEffects : ""}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="character-CMB">
+                            <div class="col-xs-12">
+                                <b>CMB:</b> +{{currentCharacter.CMB}}({{currentCharacter.currentCMB}}) <input type="button" class="roll-attack-group btn btn-secondary btn-sm" ng-click="rollCMB(currentCharacter)" value="CMB" />
+                            </div>
+                        </div>
+                        <!--<div class="row" id="character-base-attack">
+                            <div class="col-xs-12">
+                                <b>BAB:</b> +{{currentCharacter.baseAttack}}
+                            </div>
+                        </div>-->
+                        <div class="row character-header">
+                            <div class="col-xs-12">
+                                Additional Info
+                            </div>
+                        </div>
+                        <div class="row character-additional-info" ng-repeat="note in currentCharacter.additionalNotes">
+                            <div class="col-xs-12">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div><b>{{note.heading}}</b></div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div>{{note.value}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row character-header">
+                            <div class="col-xs-12">
+                                Statistics
+                            </div>
+                        </div>
+                        <div class="row" id="character-feats">
+                            <div class="col-xs-12">
+                                <b>Feats:</b> {{currentCharacter.feats}}
+                            </div>
+                        </div>
+                        <div class="row" id="character-skills">
+                            <div class="col-xs-12">
+                                <b>Skills:</b> {{currentCharacter.skills}}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -224,6 +342,11 @@
                                 <b>Roll {{$index+1}}:</b> {{breakdownRoll.diceCount}}d{{breakdownRoll.diceValue}} = {{breakdownRoll.currentTotal}}
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <textarea id="notes" rows="10" placeholder="Additional Notes..."></textarea>
                     </div>
                 </div>
 
