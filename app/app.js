@@ -2,7 +2,7 @@
 
 // Declare app level module which depends on views, and components
 var PathfinderManager = angular.module('PathfinderManager', ['cfp.hotkeys', "checklist-model", "ui.sortable", "ngAnimate", "ui.bootstrap",
-    "PathfinderManager.DiceRoller", "PathfinderManager.MonsterFactory"]);
+    "PathfinderManager.DiceRoller", "PathfinderManager.MonsterService", "PathfinderManager.MonsterDisplay"]);
 
 PathfinderManager.controller('CombatManager', ['$scope', '$filter', 'hotkeys', '$uibModal', 'MonsterManager', function($scope, $filter, hotkeys, $uibModal, MonsterManager) {
     $scope.roundCounter = 1; //Current Number of Rounds
@@ -25,9 +25,6 @@ PathfinderManager.controller('CombatManager', ['$scope', '$filter', 'hotkeys', '
     $scope.charactersToAddStatuses = [];
 
     $scope.emptyArray = [];
-
-    $scope.currentCharacter = MonsterManager.getCurrentMonster();
-
 
     //Boolean value to determine if Add New Character Form should show
     $scope.toggleAddNewCharacterForm = function(){
@@ -179,7 +176,6 @@ PathfinderManager.controller('CombatManager', ['$scope', '$filter', 'hotkeys', '
 
         var currentCharacterName = $scope.characterData[0].characters[0].name;
         MonsterManager.updateCurrentMonster(currentCharacterName);
-        $scope.currentCharacter = MonsterManager.getCurrentMonster();
     };
 
     //Starts combat

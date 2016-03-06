@@ -1,13 +1,12 @@
 'use strict';
 
-var MonsterService = angular.module('PathfinderManager.MonsterFactory', []);
+var MonsterService = angular.module('PathfinderManager.MonsterService', []);
 
-MonsterService.factory('MonsterManager', function(){
-    var MonsterManager = {};
+MonsterService.service('MonsterManager', function(){
 
-    MonsterManager.currentMonster = {};
+    this.currentMonster = {};
 
-    MonsterManager.getCurrentMonster = function(){
+    this.getCurrentMonster = function(){
         if (this.currentMonster === undefined) {
             return {};
         }else{
@@ -15,15 +14,15 @@ MonsterService.factory('MonsterManager', function(){
         }
     }
 
-    MonsterManager.updateCurrentMonster = function(monsterName){
+    this.updateCurrentMonster = function(monsterName){
         if (this.currentMonster.name == this.monsters[0].name){
-            this.currentMonster = angular.copy(this.monsters[1]);
+            this.currentMonster = this.monsters[1];
         }else{
-            this.currentMonster = angular.copy(this.monsters[0]);
+            this.currentMonster = this.monsters[0];
         }
     }
 
-    MonsterManager.monsters = [
+    this.monsters = [
         {
             name:"Hound Archon",
             type:"LG Medium Outsider",
@@ -58,6 +57,7 @@ MonsterService.factory('MonsterManager', function(){
             baseAttack: 6,
             CMB: 8,
             currentCMB: 0,
+            currentCMBRoll:0,
             CMD: 18,
             feats:"Improved Initiative, Iron Will, Power Attack",
             skills:"Acrobatics + 9, Intimidate + 10, Stealth + 13, Survival + 14",
@@ -74,22 +74,6 @@ MonsterService.factory('MonsterManager', function(){
                 "attacks, but gains the bite attack of the form it chooses. For the purposes of this ability, canines include " +
                 "any dog-like or wolf-like creature of the animal type."}
             ],
-            rollCMB: function(){
-                this.currentCMB = Math.floor(Math.random() * 20) + 1 + this.CMB;
-            },
-            rollAttack: function(group){
-                angular.forEach(group.groupAttacks, function(attack) {
-                    var total = 0;
-                    attack.currentRollToHit = Math.floor(Math.random() * 20) + 1;
-                    attack.currentTotalToHit = attack.currentRollToHit + attack.bonusToHit;
-                    for (var i = 0; i < attack.diceCount; i++) {
-
-                        var currentRoll = Math.floor(Math.random() * attack.diceValue) + 1;
-                        total += currentRoll;
-                    }
-                    attack.currentDamage = total + attack.diceBonus;
-                });
-            }
 
         },
         {
@@ -113,6 +97,7 @@ MonsterService.factory('MonsterManager', function(){
             baseAttack: 8,
             CMB: 11,
             currentCMB: 0,
+            currentCMBRoll:0,
             CMD: 22,
             feats:"Agile Maneuvers, Combat Reflexes, Iron Will, Weapon Finesse",
             skills:"Bluff +27, Diplomacy +19, Disguise +19, Escape Artist +11, Fly +14, Intimidate +16, Knowledge (local) +15, Perception +21, Sense Motive +13, Stealth +14; Racial Modifiers +8 Bluff, +8 Perception",
@@ -138,6 +123,4 @@ MonsterService.factory('MonsterManager', function(){
             }
         }
     ]
-
-    return MonsterManager;
 });

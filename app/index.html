@@ -133,132 +133,7 @@
                 </ul>
             </div><!--End Initiative Tracker-->
             <div class="col-xs-4" id="combat-manager-main-content">
-                <div class="row" id="character-info">
-                    <div class="col-xs-12">
-                        <div class="row" id="character-heading">
-                            <div class="col-xs-12">
-                                <b>{{currentCharacter.name}}</b> - {{currentCharacter.type}}
-                            </div>
-                        </div>
-                        <!--<div class="row" id="character-initiative">
-                            <div class="col-xs-12">
-                                <b>Initiative:</b> {{currentCharacter.initiative}}
-                            </div>
-                        </div>-->
-                        <div class="row" id="character-senses">
-                            <div class="col-xs-12">
-                                <b>Senses:</b> {{currentCharacter.senses}}
-                            </div>
-                        </div>
-                        <div class="row character-header">
-                            <div class="col-xs-12">
-                                Defence
-                            </div>
-                        </div>
-                        <div class="row" id="character-ac">
-                            <div class="col-xs-12">
-                                <b>AC:</b> {{currentCharacter.AC}}
-                            </div>
-                        </div>
-                        <div class="row" id="character-hp">
-                            <div class="col-xs-12">
-                                <b>HP:</b> {{currentCharacter.HP}}
-                            </div>
-                        </div>
-                        <div class="row" id="character-saves">
-                            <div class="col-xs-12">
-                                <b>Fort:</b> {{currentCharacter.fortitude}}, <b>Ref:</b> {{currentCharacter.reflex}}, <b>Will:</b> {{currentCharacter.will}}
-                            </div>
-                        </div>
-                        <div class="row" id="character-defences">
-                            <div class="col-xs-12">
-                                <b>Defences:</b> {{currentCharacter.defences}}
-                            </div>
-                        </div>
-                        <div class="row" id="character-CMD">
-                            <div class="col-xs-12">
-                                <b>CMD:</b> +{{currentCharacter.CMD}}
-                            </div>
-                        </div>
-                        <div class="row character-header">
-                            <div class="col-xs-12">
-                                Attack
-                            </div>
-                        </div>
-                        <div class="row" id="character-speed">
-                            <div class="col-xs-12">
-                                <b>Speed:</b> {{currentCharacter.speed}}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <b>Melee:</b>
-                                <div class="character-attacks" ng-repeat="group in currentCharacter.attacks">
-                                    <div class="row">
-                                        <div class="col-xs-12">
-                                            <i>{{group.groupName}}: </i>
-                                            <input type="button" class="roll-attack-group btn btn-secondary btn-sm" ng-click="currentCharacter.rollAttack(group)" value="Attack" />
-                                        </div>
-                                    </div>
-                                    <div class="row" ng-repeat="attack in group.groupAttacks">
-                                        <div class="col-xs-6">{{attack.name}}
-                                        + {{attack.bonusToHit}} ({{attack.diceCount}}d{{attack.diceValue}}
-                                        + {{attack.diceBonus}}{{attack.additionalEffects != "" ?  " plus "+attack.additionalEffects : ""}})
-                                        </div>
-                                        <div ng-class="{'col-xs-6':true, 'critical-attack': attack.currentRollToHit >= attack.lowerCriticalRange, 'critical-miss':attack.currentRollToHit == 1}">
-                                            <div>{{attack.currentTotalToHit}}({{attack.currentRollToHit}}) to hit, {{attack.currentDamage}} damage{{attack.additionalEffects != "" ?  " plus "+attack.additionalEffects : ""}}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row" id="character-CMB">
-                            <div class="col-xs-12">
-                                <b>CMB:</b> +{{currentCharacter.CMB}}({{currentCharacter.currentCMB}}) <input type="button" class="roll-attack-group btn btn-secondary btn-sm" ng-click="currentCharacter.rollCMB()" value="CMB" />
-                            </div>
-                        </div>
-                        <!--<div class="row" id="character-base-attack">
-                            <div class="col-xs-12">
-                                <b>BAB:</b> +{{currentCharacter.baseAttack}}
-                            </div>
-                        </div>-->
-                        <div class="row character-header">
-                            <div class="col-xs-12">
-                                Additional Info
-                            </div>
-                        </div>
-                        <div class="row character-additional-info" ng-repeat="note in currentCharacter.additionalNotes">
-                            <div class="col-xs-12">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <div><b>{{note.heading}}</b></div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <div>{{note.value}}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row character-header">
-                            <div class="col-xs-12">
-                                Statistics
-                            </div>
-                        </div>
-                        <div class="row" id="character-feats">
-                            <div class="col-xs-12">
-                                <b>Feats:</b> {{currentCharacter.feats}}
-                            </div>
-                        </div>
-                        <div class="row" id="character-skills">
-                            <div class="col-xs-12">
-                                <b>Skills:</b> {{currentCharacter.skills}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--<input type="button" class="btn btn-primary" ng-click="openAddGroupStatus()" value="Add Group Status" /><!--Button to open Add Group Status-->
+                <div class=col-xs-12 ng-include="'MonsterDisplay/MonsterDisplay.html'"></div>
             </div>
             <div class="col-xs-4">
                 <div class="row">
@@ -327,7 +202,8 @@
         <!--Begin Application Javascript Files-->
         <script src="app.js"></script>
             <script src="DiceRoller/DiceRoller.js"></script>
-            <script src="MonsterFactory/MonsterFactory.js"></script>
+            <script src="MonsterService/MonsterService.js"></script>
+            <script src="MonsterDisplay/MonsterDisplay.js"></script>
         <!--End Application Javascript Files-->
     </div>
     </div>
