@@ -1,0 +1,11 @@
+ <div class="row" id="add-main-characters" ng-show="showAddMainCharacters">
+    <div class="col-xs-3"> <!--Begin form to add main characters to initiative order-->
+        <div>
+            <h4>Add Main Characters</h4>
+        </div>
+        <div class="row main-character" ng-repeat="mainCharacter in mainCharacters">
+            <div class="col-xs-6"><b>{{mainCharacter}}</b></div>
+            <div class="col-xs-6"><input type=number class="form-control" ng-model="newCharacterInitiative" ng-keydown="addMainCharacter($event, mainCharacter, newCharacterInitiative)"></div>
+        </div>
+    </div><!--End form to add main characters to initiative order-->
+</div>

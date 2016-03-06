@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="PathfinderManager">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Pathfinder Manager</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!--<link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
+  <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">-->
+  <link rel="stylesheet" href="CombatManager.css">
+  <link rel="stylesheet" href="css/bootstrap.css">
+   <!-- <link rel="stylesheet" href="css/bootstrap-responsive.css">-->
+    <link rel="stylesheet" href="css/hotkeys.css">
+    <link rel="stylesheet" href="css/jquery-ui.css">
+    <link rel="stylesheet" href="css/jquery-ui.structure.css">
+    <link rel="stylesheet" href="css/jquery-ui.theme.css">
+  <!--<script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>-->
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+
+        <div ng-controller="CombatManager" id=combat-manager class="col-xs-12"><!--Begin Main Combat Manager Section-->
+
+        <div class="row" id="combat-manager-header"> <!--Begin Combat Manager Header - contains Title and Round Counter-->
+            <div id="initiative-tracker-title" class="col-xs-3">
+                <span><h2>Combat Manager</h2></span>
+            </div>
+            <div id="round-counter" class="col-xs-9">
+                <span><h2>Round : {{roundCounter}}</h2></span><!--Round Counter-->
+            </div>
+        </div><!--End Combat Manager Header-->
+        <div class="row" id="combat-manager-utilities">
+            <div class="col-xs-1">
+                <h3>Utilities: </h3>
+            </div>
+            <div class="col-xs-11">
+                <input type="button" id="start-combat-button" class="btn btn-success" ng-click="startCombat()" value="Start Combat" /><!--Start Combat Button-->
+                <input type="button" class="btn btn-info" ng-click="toggleAddMainCharacters()" value="Add Main Characters"/> <!--Button to show add main character form-->
+                <input type="button" class="btn btn-info" ng-click="toggleAddNewCharacterForm()" value="Add New Characters"/> <!--Button to show add new character form-->
+                <input type="button" class="btn btn-info" ng-click="nextInitiative()" value="Next Initiative" /><!--Button to move to next character in initiative order-->
+                <input type="button" class="btn btn-warning" ng-click="openAddGroupStatus()" value="Add Group Status"/><!--Button to add status to multiple characters-->
+            </div>
+        </div>
+
+        <div ng-include="'Forms/AddCharactersToInitiative.html'"></div>
+
+        <div ng-include="'Forms/AddMainCharacters.html'"></div>
+
+        <div class="row" id="combat-manager-content"><!--Begin Combat Manager Main Content - contains initiative tracker and character content-->
+                <div class="col-xs-4" ng-include="'Components/InitiativeTracker/InitiativeTracker.html'"></div>
+                <div class="col-xs-4" ng-include="'Components/MonsterDisplay/MonsterDisplay.html'"></div>
+                <div class="col-xs-4">
+                    <div class="row">
+                        <div class=col-xs-12 ng-include="'Components/DiceRoller/DiceRoller.html'"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <textarea id="notes" rows="10" placeholder="Additional Notes..."></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div><!--End Combat Manager Main Content-->
+
+  <!-- In production use:
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+  -->
+        <script src="scripts/jquery-1.12.0.min.js"></script>
+        <script src="scripts/jquery-ui.js"></script>
+        <script src="bower_components/angular/angular.js"></script>
+        <script src="bower_components/angular-route/angular-route.js"></script>
+        <script src="scripts/angular-animate.js"></script>
+        <script src="scripts/angular-touch.js"></script>
+        <script src="Components/version/version.js"></script>
+        <script src="Components/version/version-directive.js"></script>
+        <script src="Components/version/interpolate-filter.js"></script>
+        <script src="scripts/bootstrap.js"></script>
+        <script src="scripts/mousetrap.min.js"></script>
+        <script src="scripts/checklist-model.js"></script>
+        <script src="scripts/hotkeys.js"></script>
+        <script src="scripts/sortable.js"></script>
+        <script src="scripts/ui-bootstrap-tpls-1.1.2.js"></script>
+
+        <!--Begin Application Javascript Files-->
+        <script src="CombatManager.js"></script>
+            <script src="Components/DiceRoller/DiceRoller.js"></script>
+            <script src="Services/MonsterService/MonsterService.js"></script>
+            <script src="Components/MonsterDisplay/MonsterDisplay.js"></script>
+            <script src="Services/InitiativeTrackerService/InitiativeTrackerService.js"></script>
+            <script src="Components/InitiativeTracker/InitiativeTracker.js"></script>
+        <!--End Application Javascript Files-->
+    </div>
+    </div>
+</div>
+</body>
+</html>

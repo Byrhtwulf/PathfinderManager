@@ -1,0 +1,28 @@
+<!--Modal Window for Adding Group Status-->
+<div>
+    <div class="modal-header"><h4>Add Group Status:</h4></div>
+    <div class="modal-body">
+        <form>
+            <div class="form-group">
+                <label for="add-new-group-status-name">Status Name:</label>
+                <input type="text" ng-model="newGroupStatusName" id="add-new-group-status-name" class="form-control" name="status-name"/>
+            </div>
+            <div class="form-group">
+                <label for="add-new-group-status-duration">Duration: </label>
+                <input type="text" ng-model="newGroupStatusDuration" id="add-new-group-status-duration" class="form-control" name="status-duration"/>
+            </div>
+        </form>
+
+        <div ng-repeat="group in characterData">
+            <ul class="status-to">
+                <li ng-repeat="character in group.characters">
+                    <input type="checkbox" checklist-model="charactersToAddStatuses" checklist-value="character"/>{{character.name}}
+                </li>
+            </ul>
+        </div>
+
+        <button class="btn btn-primary" type="button" ng-click="addGroupStatus(newGroupStatusName, newGroupStatusDuration)">Add Status</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+    </div>
+
+</div><!--End form to add status to multiple characters-->

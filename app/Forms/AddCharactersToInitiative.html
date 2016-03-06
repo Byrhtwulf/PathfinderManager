@@ -1,0 +1,32 @@
+<div class="row" id="add-new-character-form" ng-show="showAddNewCharacterForm">
+     <div class="col-xs-3" id="add-new-character"> <!--Begin form to add new character to initiative order-->
+         <div ><h4>New Character Group</h4></div>
+         <form>
+             <div class="form-group row">
+                 <div class="col-xs-8">
+                     <label for="add-new-character-name">Name:</label>
+                     <input type="text" ng-model="newCharacterName" id="add-new-character-name" class="form-control" name="character-name"/><!--Input new character name-->
+                 </div>
+                 <div class="col-xs-4">
+                     <label for="add-new-character-count">Count:</label>
+                     <input type="number" ng-model="newCharacterCount" id="add-new-character-count" class="form-control" name="character-count" value="1"/><!--Input new character name-->
+                 </div>
+             </div>
+             <div class="form-group row">
+                 <div class="col-xs-6">
+                     <label for="add-new-character-initiative">Initiative:</label>
+                     <input type="number" ng-model="newCharacterInitiative" id=add-new-character-initiative class="form-control" name="character-initiative" value="0"/><!--Input new character initiative-->
+                 </div>
+                 <div class="col-xs-6">
+                     <label for="add-new-character-hp">Hp:</label>
+                     <input type="number" ng-model="newCharacterHp" id=add-new-character-hp step="0.1" class="form-control" name="character-Hp" value="0"/><!--Input new character initiative-->
+                 </div>
+             </div>
+             <div class="row">
+                 <div class="col-xs-12">
+                     <input type="button" class="btn btn-primary" ng-click="addCharactersToInitiative(newCharacterName, newCharacterInitiative, newCharacterHp, newCharacterCount)" value="Add Characters" /><br/><!--Button to add character to initiative order-->
+                 </div>
+             </div>
+         </form>
+     </div><!--End form to add new character to initiative order-->
+</div>

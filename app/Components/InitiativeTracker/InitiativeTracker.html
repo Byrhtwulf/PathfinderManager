@@ -1,0 +1,48 @@
+<div class="row" ng-controller="InitiativeTracker">
+    <div class="col-xs-12" id="initiative-tracker"><!--Begin Initiative Tracker-->
+        <ul ui-sortable="characterSort" ng-model="characterData" >
+            <li class="character-data" ng-repeat="group in characterData">
+                <div class="row">
+                    <div ng-repeat="character in group.characters">
+                        <div class="col-xs-8">
+                            <div class="row">
+                                <div class="col-xs-1"><!--Delete button for Character-->
+                                    <input class="delete-character" type="button" ng-click="removeCharacterFromInitiative(group, character)" value="">
+                                </div>
+                                <div class="col-xs-6 character-name-container"><!--Display Character Name for each character-->
+                                    <span class="character-name">{{character.name}}</span> ({{character.currentHp}})
+                                </div>
+                                <div class="col-xs-4">
+                                    <input type=number class="modify-hp-input form-control hpDifferenceInput" placeholder="HP" ng-model="character.hpDifference" ng-keydown="updateHp($event, character.hpDifference, character)">
+                                </div>
+                            </div>
+                            <div class="row character-status" ng-repeat="status in character.statuses">
+                                <div class="col-xs-1"><!--Delete button for Status-->
+                                    <input class="delete-character" type="button" ng-click="removeStatusFromCharacter(character, status)" value="">
+                                </div>
+                                <div class="col-xs-11">
+                                    {{status.name}}: {{status.duration + 1}} rounds
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-4"><!--Begin Form to add new status to current character-->
+                            <div class="row" id="add-new-status">
+                                <div class="col-xs-12">
+                                    <form>
+                                        <div class="form-group row">
+                                            <div class="col-xs-8">
+                                                <input type="text" ng-model="character.newStatusName" placeholder="New Status" id="add-new-status-name" ng-keydown="addStatusToCharacter($event, character)" class="form-control" name="status-name"/>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div><!--End Form to add new status to current character-->
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div><!--End Initiative Tracker-->
+</div>
+<link rel="stylesheet" href="Components/InitiativeTracker/InitiativeTracker.css">

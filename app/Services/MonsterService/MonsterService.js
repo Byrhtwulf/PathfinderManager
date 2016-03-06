@@ -4,8 +4,10 @@ var MonsterService = angular.module('PathfinderManager.MonsterService', []);
 
 MonsterService.service('MonsterManager', function(){
 
+    //Current monster object used in display
     this.currentMonster = {};
 
+    //retrieves current monster
     this.getCurrentMonster = function(){
         if (this.currentMonster === undefined) {
             return {};
@@ -14,6 +16,7 @@ MonsterService.service('MonsterManager', function(){
         }
     }
 
+    //Updates current monster based on monster name
     this.updateCurrentMonster = function(monsterName){
         if (this.currentMonster.name == this.monsters[0].name){
             this.currentMonster = this.monsters[1];
@@ -22,6 +25,7 @@ MonsterService.service('MonsterManager', function(){
         }
     }
 
+    //Array of monsters
     this.monsters = [
         {
             name:"Hound Archon",
