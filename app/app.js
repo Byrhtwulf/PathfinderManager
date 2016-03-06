@@ -13,6 +13,8 @@ PathfinderManager.controller('CombatManager', ['$scope', '$filter', 'hotkeys', '
         {diceValue:4, diceCount:"", diceBonus:"", rolls:[]},
         {diceValue:100, diceCount:"", diceBonus:"", rolls:[]}
     ]
+
+    $scope.customRolls = {customRollFormula:"", rolls: []};
     $scope.roundCounter = 1; //Current Number of Rounds
     $scope.numOfActions = 0; //Number of characters that have gone in current round
     //Stores characters in initiative order
@@ -195,6 +197,7 @@ PathfinderManager.controller('CombatManager', ['$scope', '$filter', 'hotkeys', '
         $scope.roundCounter = 1;
         //Order list of characters by initiative
         $scope.characterData = $filter('orderBy')($scope.characterData, "-initiative");
+        $scope.clearAllDice();
     }
 
     $scope.rollDice = function(dice){
@@ -247,7 +250,46 @@ PathfinderManager.controller('CombatManager', ['$scope', '$filter', 'hotkeys', '
         angular.forEach($scope.diceList, function(dice){
             $scope.clearDiceRolls(dice);
         })
+        $scope.clearCustomRoll();
     }
+
+    $scope.rollCustomDice = function($event, customRollFormula){
+        if ($event.keyCode == 13){
+            var total = 0;
+            var diceCount = customRollFormula.substring(0, customRollFormula.lastIndexOf("d"));
+            var diceValue = customRollFormula.substring(customRollFormula.lastIndexOf("d")+1, customRollFormula.length);
+            var diceBonus = 0;
+            if (customRollFormula.indexOf("+") != -1){
+                diceValue = customRollFormula.substring(customRollFormula.lastIndexOf("d")+1, customRollFormula.lastIndexOf("+"));
+                diceBonus = customRollFormula.substring(customRollFormula.lastIndexOf("+")+1, customRollFormula.length);
+            }
+
+            var newRoll = $scope.createNewDice(diceValue, diceCount, diceBonus);
+            for (var i = 0; i < diceCount; i++){
+
+                var currentRoll = Math.floor(Math.random() * diceValue) + 1;
+                total += currentRoll;
+
+                var oneDice = $scope.createNewDice(diceValue, 1, 0);
+                oneDice.currentRoll = currentRoll;
+                oneDice.currentTotal = currentRoll;
+                newRoll.rolls.push(oneDice);
+            }
+            newRoll.currentRoll = total;
+            if (diceBonus == ""){
+                newRoll.currentTotal = total;
+            }else{
+                newRoll.currentTotal = total + parseInt(diceBonus, 10);
+            }
+            $scope.customRolls.rolls.push(newRoll);
+        }
+    }
+
+    $scope.clearCustomRoll = function(){
+        $scope.customRolls.customRollFormula = "";
+        $scope.customRolls.rolls = angular.copy($scope.emptyArray);
+    }
+
 
 
 }]);
