@@ -1,0 +1,22 @@
+.character-header{
+    border-top:1px solid black;
+    border-bottom:1px solid black;
+    font-style: italic;
+    text-transform: uppercase;
+    margin-top:10px;
+    margin-bottom:10px;
+}
+
+.character-attacks{
+    margin-bottom:5px;
+}
+
+.critical-attack{
+    color:green;
+}
+.critical-miss{
+    color:red;
+}
+.character-additional-info{
+    margin-bottom:10px;
+}
