@@ -2,7 +2,7 @@
 
 var InitiativeTrackerService = angular.module('PathfinderManager.InitiativeTrackerService', ['PathfinderManager.MonsterService']);
 
-InitiativeTrackerService.service('InitiativeTrackerService', ['MonsterManager', '$filter', function(MonsterManager, $filter){
+InitiativeTrackerService.service('InitiativeTrackerService', ['MonsterManager', '$filter', 'MonsterMigrator', function(MonsterManager, $filter, MonsterMigrator){
 
   this.characterData = [{characters:[{name:"Boromir", currentHp: 78, hpDifference: "", newStatus:"", statuses:[{name: "Dazed", duration: 1}, {name: "Stunned", duration: 3}]}], initiative:17,},
     {characters:[{name:"Arc", currentHp: 69, hpDifference:"", newStatus:"", statuses:[{name: "Poisoned", duration: 8}, {name: "Stunned", duration: 3}]}], initiative:12,},
@@ -19,7 +19,7 @@ InitiativeTrackerService.service('InitiativeTrackerService', ['MonsterManager', 
   //Adds new characters to initiative tracker
   this.addCharactersToInitiative = function (newCharacterName, newCharacterInitiative, newCharacterHp, newCharacterCount) {
 
-    if (newCharacterCount == ""){
+    if (newCharacterCount == undefined){
       newCharacterCount = 1;
     }
     if (newCharacterInitiative == ""){
@@ -120,7 +120,7 @@ InitiativeTrackerService.service('InitiativeTrackerService', ['MonsterManager', 
     var currentCharacterName = this.characterData[0].characters[0].name;
     //Updates monster display if current character is monster
     MonsterManager.updateCurrentMonster(currentCharacterName);
-    MonsterManager.createMonsterFromDatabase();
+    MonsterMigrator.createMonsterFromDatabase();
   };
 
 }]);

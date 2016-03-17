@@ -3,7 +3,7 @@
 // Declare app level module which depends on views, and components
 var PathfinderManager = angular.module('PathfinderManager', ['cfp.hotkeys', "checklist-model", "ngAnimate", "ui.bootstrap",
     "PathfinderManager.DiceRoller", "PathfinderManager.MonsterService", "PathfinderManager.MonsterDisplay", "PathfinderManager.InitiativeTrackerService",
-    "PathfinderManager.InitiativeTracker"]);
+    "PathfinderManager.InitiativeTracker", ]);
 
 PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal', 'InitiativeTrackerService', function($scope, hotkeys, $uibModal, InitiativeTrackerService) {
     $scope.roundCounter = 1; //Current Number of Rounds
