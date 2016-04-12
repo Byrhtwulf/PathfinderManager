@@ -4,7 +4,7 @@ var InitiativeTrackerService = angular.module('PathfinderManager.InitiativeTrack
 
 InitiativeTrackerService.service('InitiativeTrackerService', ['MonsterManager', '$filter', 'MonsterMigrator', function(MonsterManager, $filter, MonsterMigrator){
 
-  this.characterData = [{characters:[{name:"Boromir", currentHp: 78, hpDifference: "", newStatus:"", statuses:[{name: "Dazed", duration: 1}, {name: "Stunned", duration: 3}]}], initiative:17,},
+  /*this.characterData = [{characters:[{name:"Boromir", currentHp: 78, hpDifference: "", newStatus:"", statuses:[{name: "Dazed", duration: 1}, {name: "Stunned", duration: 3}]}], initiative:17,},
     {characters:[{name:"Arc", currentHp: 69, hpDifference:"", newStatus:"", statuses:[{name: "Poisoned", duration: 8}, {name: "Stunned", duration: 3}]}], initiative:12,},
     {characters:[{name:"Rhaelyn", currentHp: 100,  hpDifference:"", newStatus:"", statuses:[{name: "Dazzled", duration: 9}, {name: "Diseased", duration: 5}]}], initiative:13,},
     {characters:[{name:"Skirmisher 1", currentHp: 100,  hpDifference:"", newStatus:"", statuses:[{name: "Dazzled", duration: 9}, {name: "Diseased", duration: 5}]},
@@ -12,9 +12,9 @@ InitiativeTrackerService.service('InitiativeTrackerService', ['MonsterManager', 
       {name:"Skirmisher 3", currentHp: 100,  hpDifference:"", newStatus:"", statuses:[{name: "Dazzled", duration: 9}, {name: "Diseased", duration: 5}]}], initiative:10},
     {characters:[{name:"Hound Archon", currentHp: 100,  hpDifference:"", newStatus:"", statuses:[{name: "Dazzled", duration: 9}, {name: "Diseased", duration: 5}]}], initiative:13},
     {characters:[{name:"Succubus", currentHp: 100,  hpDifference:"", newStatus:"", statuses:[{name: "Dazzled", duration: 9}, {name: "Diseased", duration: 5}]}], initiative:13}
-  ];
+  ];*/
   //Character Data for Initiative Tracker
-  //this.characterData=[];
+  this.characterData=[];
 
   //Adds new characters to initiative tracker
   this.addCharactersToInitiative = function (newCharacterName, newCharacterInitiative, newCharacterHp, newCharacterCount) {
@@ -22,7 +22,7 @@ InitiativeTrackerService.service('InitiativeTrackerService', ['MonsterManager', 
     if (newCharacterCount == undefined){
       newCharacterCount = 1;
     }
-    if (newCharacterInitiative == ""){
+    if (newCharacterInitiative == "" || newCharacterInitiative == undefined){
       newCharacterInitiative = 1;
     }
     if (newCharacterName.trim() != "") {
