@@ -3,11 +3,22 @@
 // Declare app level module which depends on views, and components
 var PathfinderManager = angular.module('PathfinderManager', ['cfp.hotkeys', "checklist-model", "ngAnimate", "ui.bootstrap",
     "PathfinderManager.DiceRoller", "PathfinderManager.MonsterService", "PathfinderManager.MonsterDisplay", "PathfinderManager.InitiativeTrackerService",
-    "PathfinderManager.InitiativeTracker", ]);
+    "PathfinderManager.InitiativeTracker" ]);
 
 PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal', 'InitiativeTrackerService', function($scope, hotkeys, $uibModal, InitiativeTrackerService) {
     $scope.roundCounter = 1; //Current Number of Rounds
     $scope.numOfActions = 0; //Number of characters that have gone in current round
+    $scope.showDiceRoller = false;
+
+
+    $scope.toggleDiceRoller = function(){
+        if($scope.showDiceRoller == true){
+            $scope.showDiceRoller = false;
+        }
+        else{
+            $scope.showDiceRoller = true;
+        }
+    };
 
     //Watches Character data in InitiativeTracker
     $scope.$watch(
@@ -95,6 +106,8 @@ PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal',
     $scope.startCombat = function(){
         //Set Rounds = 1
         $scope.roundCounter = 1;
+        //Adds a new item to the start of the initiative order to keep track of the start of a new round
+        $scope.addCharactersToInitiative("Start of New Round", 1000, 0,1);
         //Order list of characters by initiative
         InitiativeTrackerService.sortCharacterDataByInitiative();
     }
@@ -126,3 +139,4 @@ PathfinderManager.controller("AddGroupStatus",function($scope, $uibModalInstance
 
 
 });
+
