@@ -31,6 +31,9 @@
                 <span><h2>Round : {{roundCounter}}</h2></span><!--Round Counter-->
             </div>
         </div><!--End Combat Manager Header-->
+        <div class="row">
+            <div class="col-xs-12" ng-include="'Components/MonsterCreator/MonsterCreator.html'"></div>
+        </div>
         <div class="row" id="combat-manager-utilities">
             <div class="col-xs-1">
                 <h3>Utilities: </h3>
@@ -49,19 +52,20 @@
         <div ng-include="'Forms/AddMainCharacters.html'"></div>
 
         <div class="row" id="combat-manager-content"><!--Begin Combat Manager Main Content - contains initiative tracker and character content-->
-                <div class="col-xs-4" ng-include="'Components/InitiativeTracker/InitiativeTracker.html'"></div>
-                <div class="col-xs-4" ng-include="'Components/MonsterDisplay/MonsterDisplay.html'"></div>
-                <div class="col-xs-4">
-                    <div class="row">
-                        <div class=col-xs-12 ng-include="'Components/DiceRoller/DiceRoller.html'"></div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <textarea id="notes" rows="10" placeholder="Additional Notes..."></textarea>
-                        </div>
+            <div class="col-xs-4" ng-include="'Components/InitiativeTracker/InitiativeTracker.html'"></div>
+            <div class="col-xs-4" ng-include="'Components/MonsterDisplay/MonsterDisplay.html'"></div>
+            <div class="col-xs-4">
+                <div class="row">
+                    <div class=col-xs-12 ng-include="'Components/DiceRoller/DiceRoller.html'"></div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <textarea id="notes" rows="10" placeholder="Additional Notes..."></textarea>
                     </div>
                 </div>
-            </div><!--End Combat Manager Main Content-->
+            </div>
+        </div><!--End Combat Manager Main Content-->
+        <div><input type="button" class="btn btn-warning" ng-click="toggleMonsterCreator()" value="Add New Monster"/></div>
 
   <!-- In production use:
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
@@ -90,6 +94,7 @@
             <script src="Components/MonsterDisplay/MonsterDisplay.js"></script>
             <script src="Services/InitiativeTrackerService/InitiativeTrackerService.js"></script>
             <script src="Components/InitiativeTracker/InitiativeTracker.js"></script>
+            <script src="Components/MonsterCreator/MonsterCreator.js"></script>
         <!--End Application Javascript Files-->
     </div>
     </div>

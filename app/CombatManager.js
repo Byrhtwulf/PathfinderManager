@@ -3,11 +3,12 @@
 // Declare app level module which depends on views, and components
 var PathfinderManager = angular.module('PathfinderManager', ['cfp.hotkeys', "checklist-model", "ngAnimate", "ui.bootstrap",
     "PathfinderManager.DiceRoller", "PathfinderManager.MonsterService", "PathfinderManager.MonsterDisplay", "PathfinderManager.InitiativeTrackerService",
-    "PathfinderManager.InitiativeTracker", ]);
+    "PathfinderManager.InitiativeTracker", "PathfinderManager.MonsterCreator", ]);
 
 PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal', 'InitiativeTrackerService', function($scope, hotkeys, $uibModal, InitiativeTrackerService) {
     $scope.roundCounter = 1; //Current Number of Rounds
     $scope.numOfActions = 0; //Number of characters that have gone in current round
+    $scope.newCharacterName = "";
 
     //Watches Character data in InitiativeTracker
     $scope.$watch(
@@ -23,6 +24,10 @@ PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal',
 
     //List of characters to add group status to
     $scope.charactersToAddStatuses = [];
+
+    $scope.toggleMonsterCreator = function(){
+        $scope.showMonsterCreator = !$scope.showMonsterCreator;
+    }
 
     //Boolean value to determine if Add New Character Form should show
     $scope.toggleAddNewCharacterForm = function(){

@@ -1,0 +1,49 @@
+.form-control-label {
+    padding: .75rem .5rem;
+    margin-bottom: 0;
+}
+
+.monster-form-header{
+    background-color: rgb(207,226,243);
+}
+
+.monster-form-separator{
+    border-top:1px solid black;
+    border-bottom:1px solid black;
+    font-weight:bold;
+    font-size:16px;
+    text-transform: uppercase;
+    margin-top:10px;
+    margin-bottom:10px;
+    margin-left:5px;
+    margin-right:5px;
+    font-family: 'Varela',sans-serif!important;
+}
+
+.attack-group-button{
+   margin-bottom:15px;
+}
+
+.attack, .ability-description{
+    margin-top:5px;
+    margin-bottom:0px;
+}
+
+.add{
+     background-image:url(/app/images/add.jpg);
+     background-repeat:no-repeat;
+     background-size:contain;
+     cursor:pointer;
+     border:none;
+     height:20px;
+     width:20px;
+ }
+.delete{
+    background-image:url(/app/images/deletered.png);
+    background-repeat:no-repeat;
+    background-size:contain;
+    cursor:pointer;
+    border:none;
+    height:20px;
+    width:20px;
+}

@@ -1,0 +1,136 @@
+<div class="row" ng-show="showMonsterCreator">
+    <div class="col-xs-8" id="monster-creator" ng-controller="MonsterCreator">
+        <form id="monster-creator-form" >
+            <div class="monster-form-separator">Monster Info</div>
+                <fieldset class="form-group row">
+                    <div class="col-xs-6">
+                        <input type="text" class="form-control" ng-model="newMonster.name" id="monsterName" name="monsterName" placeholder="Monster Name">
+                    </div>
+                    <div class="col-xs-6">
+                        <input type="number" class="form-control" ng-model="newMonster.HP" id="monsterHP" name="monsterHP" placeholder="HP">
+                    </div>
+                </fieldset>
+            <div class="monster-form-separator">Defense</div>
+            <fieldset class="form-group row">
+                <label for="monsterFortitude" class="form-control-label"></label>
+                <div class="col-xs-12">
+                    <input type="text" class="form-control" ng-model="newMonster.AC" id="monsterAC" name="monsterFortitude" placeholder="AC, Touch AC, Flat-Footed AC">
+                </div>
+            </fieldset>
+            <fieldset class="form-group row">
+                <div class="col-xs-4">
+                    <input type="number" class="form-control" ng-model="newMonster.fortitude" id="monsterFortitude" name="monsterFortitude" placeholder="Fortitude">
+                </div>
+                <div class="col-xs-4">
+                    <input type="number" class="form-control" ng-model="newMonster.reflex" id="monsterReflex" name="monsterReflex" placeholder="Reflex">
+                </div>
+                <div class="col-xs-4">
+                    <input type="number" class="form-control" ng-model="newMonster.will" id="monsterWille" name="Will" placeholder="Will">
+                </div>
+            </fieldset>
+            <fieldset class="form-group row">
+                <div class="col-xs-12">
+                    <input type="text" class="form-control" ng-model="newMonster.defenses" id="monsterDefenses" name="monsterDefenses"
+                           placeholder="Additional Defenses(DR, SR, Immunities, Resistances)">
+                </div>
+            </fieldset>
+            <div class="monster-form-separator">Offense</div>
+            <fieldset class="form-group row">
+                <div class="col-xs-6">
+                    <input type="text" class="form-control" ng-model="newMonster.speed" id="monsterSpeed" name="monsterSpeed" placeholder="Speed">
+                </div>
+                <div class="col-xs-6">
+                    <input type="text" class="form-control" ng-model="newMonster.reach" id="monsterReach" name="monsterReflex" placeholder="Reach">
+                </div>
+            </fieldset>
+            <fieldset class="form-group row">
+                <div class="col-xs-3">
+                    <input type="number" class="form-control" ng-model="newMonster.CMB" id="monsterCMB" name="monsterCMB" placeholder="CMB">
+                </div>
+                <div class="col-xs-3">
+                    <input type="text" class="form-control" ng-model="newMonster.CMBMods" id="monsterCMBMods" name="monsterCMBMods" placeholder="CMB Mods">
+                </div>
+                <div class="col-xs-6">
+                    <input type="text" class="form-control" ng-model="newMonster.CMD" id="monsterCMD" name="monsterCMD" placeholder="CMD + CMD Mods">
+                </div>
+            </fieldset>
+            <div class="row">
+                <div class="col-xs-3 attack-group-button">
+                    <input type="button" class="btn btn-primary btn-block" ng-click="addAttackGroup()" value="Add Attack Group" />
+                </div>
+            </div>
+            <fieldset class="form-group row" ng-repeat="attackGroup in newMonster.attacks">
+                <div class="col-xs-12">
+                    <div class="row">
+                        <div class="col-xs-10">
+                            <input type="text" class="form-control" ng-model="attackGroup.groupName" name="attackGroupName" placeholder="Attack Group Name">
+                        </div>
+                        <div class="col-xs-1">
+                            <input type="button" class="add" ng-click="addAttack(attackGroup)" value="" />
+                        </div>
+                        <div class="col-xs-1">
+                            <input type="button" class="delete" ng-click="deleteAttackGroup(attackGroup)" value="" />
+                        </div>
+                    </div>
+                    <div class="row" ng-repeat="attack in attackGroup.groupAttacks">
+                        <div class="col-xs-10">
+                            <fieldset class="form-group row attack">
+                                <div class="col-xs-2">
+                                    <input type="text" class="form-control" ng-model="attack.bonusToHit" name="bonusToHit" placeholder="To Hit">
+                                </div>
+                                <div class="col-xs-2">
+                                    <input type="number" class="form-control" ng-model="attack.diceCount" name="diceCount" placeholder="Count">
+                                </div>
+                                <div class="col-xs-2">
+                                    <input type="number" class="form-control" ng-model="attack.diceValue" name="diceValue" placeholder="Value">
+                                </div>
+                                <div class="col-xs-2">
+                                    <input type="number" class="form-control" ng-model="attack.diceBonus" name="diceBonus" placeholder="Bonus">
+                                </div>
+                                <div class="col-xs-2">
+                                    <input type="number" class="form-control" ng-model="attack.lowerCriticalRange" name="lowerCriticalRange" placeholder="Crit">
+                                </div>
+                                <div class="col-xs-2">
+                                    <input type="text" class="form-control" ng-model="attack.additionalEffects" name="additionalEffects" placeholder="Effects">
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="col-xs-1"></div>
+                        <div class="col-xs-1">
+                            <input type="button" class="delete" ng-click="deleteAttack(attackGroup, attack)" value="" />
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <div class="row">
+                <div class="col-xs-3 attack-group-button">
+                    <input type="button" class="btn btn-primary btn-block" ng-click="addAdditionalNotes()" value="Add Additional Notes" />
+                </div>
+            </div>
+            <fieldset class="form-group row" ng-repeat="note in newMonster.monsterAdditionalNotes">
+                <div class="col-xs-12">
+                    <div class="row">
+                        <div class="col-xs-10">
+                            <input type="text" class="form-control" ng-model="note.noteTitle" name="abilityname" placeholder="Note Title">
+                        </div>
+                        <div class="col-xs-1"></div>
+                        <div class="col-xs-1">
+                            <input type="button" class="delete" ng-click="removeAdditionalNotes(note)" value="" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-10 ability-description">
+                            <textarea class="form-control" rows="5" ng-model="note.noteBody" placeholder="Additional Notes..."></textarea>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <div class="row">
+            <div class="col-xs-3">
+                <input type="button" class="btn btn-primary" ng-click="submitMonster()" value="Create Monster" />
+            </div>
+            </div>
+        </form>
+    </div>
+</div>
+<link rel="stylesheet" href="Components/MonsterCreator/MonsterCreator.css">

@@ -2,7 +2,7 @@
 
 var MonsterService = angular.module('PathfinderManager.MonsterService', []);
 
-MonsterService.service('MonsterManager', function(){
+MonsterService.service('MonsterManager', function($http){
 
     //Current monster object used in display
     this.currentMonster = {};
@@ -24,6 +24,20 @@ MonsterService.service('MonsterManager', function(){
             this.currentMonster = this.monsters[0];
         }
     };
+
+    this.createNewMonster = function(newMonster){
+        var monsterData = angular.toJson(newMonster);
+        $http({
+            url: "http://localhost:53927/api/pathfindermonster",
+            contentType: "application/json",
+            method: "Put",
+            data: {'monsterDataString': monsterData},
+            /*crossDomain: true,*/
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+    }
 
     //Array of monsters
     this.monsters = [
