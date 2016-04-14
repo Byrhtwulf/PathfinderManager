@@ -15,7 +15,7 @@ PathfinderManager.config(['$routeProvider',
             }).
             when('/MonsterCreator', {
                 templateUrl: '/app/Components/MonsterCreator/MonsterCreator.html',
-                controller: 'MonsterCreator'
+                controller: '/app/Components/MonsterCreator/MonsterCreator.js/creator'
             }).
             otherwise({
                 redirectTo: '/'
