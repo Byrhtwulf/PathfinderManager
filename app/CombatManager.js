@@ -3,12 +3,27 @@
 // Declare app level module which depends on views, and components
 var PathfinderManager = angular.module('PathfinderManager', ['cfp.hotkeys', "checklist-model", "ngAnimate", "ui.bootstrap",
     "PathfinderManager.DiceRoller", "PathfinderManager.MonsterService", "PathfinderManager.MonsterDisplay", "PathfinderManager.InitiativeTrackerService",
-    "PathfinderManager.InitiativeTracker" ]);
+    "PathfinderManager.InitiativeTracker","ngRoute" ]);
 
-PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal', 'InitiativeTrackerService', function($scope, hotkeys, $uibModal, InitiativeTrackerService) {
+PathfinderManager.config(function($routeProvider){
+   $routeProvider
+       .when('/',{
+           templateUrl : 'InitiativeTracker.html',
+           controller : 'CombatManager'
+       })
+       .when('/MonsterCreator',{
+           templateURL : 'MonsterCreator.html',
+           controller : 'MonsterCreatorController'
+       });
+
+});
+
+
+PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal', 'InitiativeTrackerService', '$timeout', function($scope, hotkeys, $uibModal, InitiativeTrackerService, $timeout) {
     $scope.roundCounter = 1; //Current Number of Rounds
     $scope.numOfActions = 0; //Number of characters that have gone in current round
     $scope.showDiceRoller = false;
+    $scope.roundTimer = 0;
 
 
     $scope.toggleDiceRoller = function(){
@@ -89,8 +104,16 @@ PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal',
         }
     })
 
+    function countdown(){
+        $scope.roundTimer++;
+        $scope.timeout = $timeout(countdown,1000);
+    }
+
     //Moves tracker to next initiative and updates actions and rounds
     $scope.nextInitiative = function(){
+        $timeout.cancel($scope.timeout);
+        $scope.roundTimer = 0;
+        countdown();
         InitiativeTrackerService.nextInitiative();
 
         //Increases number of characters that have gone in current round and checks to see if round is over
@@ -100,7 +123,7 @@ PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal',
             $scope.roundCounter = $scope.roundCounter + 1;
         }
 
-    }
+    };
 
     //Starts combat
     $scope.startCombat = function(){

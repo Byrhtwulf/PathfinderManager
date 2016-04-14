@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<div class="row" id="combat-manager-utilities">
+    <div class="col-xs-1">
+        <h3>Utilities: </h3>
+    </div>
+    <div class="col-xs-11">
+        <input type="button" id="start-combat-button" class="btn btn-success" ng-click="startCombat()" value="Start Combat" /><!--Start Combat Button-->
+        <input type="button" class="btn btn-info" ng-click="toggleAddMainCharacters()" value="Add Main Characters"/> <!--Button to show add main character form-->
+        <input type="button" class="btn btn-info" ng-click="toggleAddNewCharacterForm()" value="Add New Characters"/> <!--Button to show add new character form-->
+        <input type="button" class="btn btn-info" ng-click="nextInitiative()" value="Next Initiative" /><!--Button to move to next character in initiative order-->
+        <input type="button" class="btn btn-warning" ng-click="openAddGroupStatus()" value="Add Group Status"/><!--Button to add status to multiple characters-->
+        <input type="button" class="btn btn-info"   ng-click="toggleDiceRoller()" value="Show/Hide Dice Roller" style="float: right;"/>
+    </div>
+</div>
+
+<!--Display Round Counter-->
+<div class="row">
+    <div id="round-counter" class="col-xs-1">
+        <span>Round: {{roundCounter}}</span>
+    </div>
+
+    <!--Display Round Timer-->
+    <div id="round-timer" class="col-xs-1">
+        <span>Timer: {{roundTimer}}</span>
+    </div>
+</div>
+
+<div ng-include="'Forms/AddCharactersToInitiative.html'"></div>
+
+<div ng-include="'Forms/AddMainCharacters.html'"></div>
+
+
+<div class="row" id="combat-manager-content"><!--Begin Combat Manager Main Content - contains initiative tracker and character content-->
+
+
+    <<div ng-class="showDiceRoller ? 'col-xs-4' : 'col-xs-6'">
+        <div class="row">
+            <div class="col-xs-12" ng-include="'Components/InitiativeTracker/InitiativeTracker.html'"></div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <textarea id="notes" rows="10" placeholder="Additional Notes..."></textarea>
+            </div>
+
+        </div>
+    </div>
+
+    <div ng-class="showDiceRoller ? 'col-xs-4' : 'col-xs-6'"  ng-include="'Components/MonsterDisplay/MonsterDisplay.html'"></div>
+    <div class="col-xs-4" ng-show="showDiceRoller" ng-include="'Components/DiceRoller/DiceRoller.html'"></div>
+
+
+
+</div><!--End Combat Manager Main Content-->
+</body>
+</html>
