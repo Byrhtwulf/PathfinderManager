@@ -4,6 +4,7 @@
 var PathfinderManager = angular.module('PathfinderManager', ['cfp.hotkeys', "checklist-model", "ngAnimate", "ui.bootstrap",
     "PathfinderManager.DiceRoller", "PathfinderManager.MonsterService", "PathfinderManager.MonsterDisplay", "PathfinderManager.InitiativeTrackerService",
     "PathfinderManager.InitiativeTracker","ngRoute" ]);
+    "PathfinderManager.InitiativeTracker", "PathfinderManager.MonsterCreator", ]);
 
 PathfinderManager.config(function($routeProvider){
    $routeProvider
@@ -20,10 +21,14 @@ PathfinderManager.config(function($routeProvider){
 
 
 PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal', 'InitiativeTrackerService', '$timeout', function($scope, hotkeys, $uibModal, InitiativeTrackerService, $timeout) {
+PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal', 'InitiativeTrackerService', 'MonsterManager',
+    function($scope, hotkeys, $uibModal, InitiativeTrackerService, MonsterManager) {
+
     $scope.roundCounter = 1; //Current Number of Rounds
     $scope.numOfActions = 0; //Number of characters that have gone in current round
     $scope.showDiceRoller = false;
     $scope.roundTimer = 0;
+    $scope.newCharacterName = "";
 
 
     $scope.toggleDiceRoller = function(){
@@ -34,6 +39,8 @@ PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal',
             $scope.showDiceRoller = true;
         }
     };
+
+    $scope.monsterNames = MonsterManager.getAllMonsterNames();
 
     //Watches Character data in InitiativeTracker
     $scope.$watch(
@@ -49,6 +56,10 @@ PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal',
 
     //List of characters to add group status to
     $scope.charactersToAddStatuses = [];
+
+    $scope.toggleMonsterCreator = function(){
+        $scope.showMonsterCreator = !$scope.showMonsterCreator;
+    }
 
     //Boolean value to determine if Add New Character Form should show
     $scope.toggleAddNewCharacterForm = function(){
@@ -123,7 +134,7 @@ PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal',
             $scope.roundCounter = $scope.roundCounter + 1;
         }
 
-    };
+    }
 
     //Starts combat
     $scope.startCombat = function(){
