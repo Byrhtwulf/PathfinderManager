@@ -3,6 +3,8 @@
 var creator = angular.module('PathfinderManager.MonsterCreator', []);
 
 creator.controller('MonsterCreator', ['$scope', 'MonsterManager', function($scope, MonsterManager) {
+
+    $scope.newAttack =  {name:"", bonusToHit: "", diceValue: "", diceCount: "", diceBonus:"", currentRollToHit: 0, currentTotalToHit: 0, currentDamage:0, lowerCriticalRange: "", additionalEffects:""}
     $scope.newMonster = {
         name: "",
         type: "",
@@ -41,6 +43,7 @@ creator.controller('MonsterCreator', ['$scope', 'MonsterManager', function($scop
 
     $scope.addAttackGroup = function(){
         var attackGroup = {groupName: "", groupAttacks:[]};
+        attackGroup.groupAttacks.push(angular.copy($scope.newAttack));
         $scope.newMonster.attacks.push(attackGroup);
     }
     $scope.deleteAttackGroup = function(attackGroup){
@@ -49,8 +52,7 @@ creator.controller('MonsterCreator', ['$scope', 'MonsterManager', function($scop
     }
 
     $scope.addAttack = function(attackGroup){
-        var attack =  {name:"", bonusToHit: "", diceValue: "", diceCount: "", diceBonus:"", currentRollToHit: 0, currentTotalToHit: 0, currentDamage:0, lowerCriticalRange: "", additionalEffects:""}
-        attackGroup.groupAttacks.push(attack);
+        attackGroup.groupAttacks.push(angular.copy($scope.newAttack));
     }
 
     $scope.deleteAttack = function(attackGroup, attack){
@@ -59,16 +61,17 @@ creator.controller('MonsterCreator', ['$scope', 'MonsterManager', function($scop
     }
 
     $scope.addAdditionalNotes = function(){
-        var ability = {noteTitle:"", noteBody:""}
-        $scope.newMonster.additionalNotes.push(ability);
+        var note = {noteTitle:"", noteBody:""}
+        $scope.newMonster.monsterAdditionalNotes.push(note);
     }
     $scope.removeAdditionalNotes = function(note){
         var index = $scope.newMonster.additionalNotes.indexOf(note);
-        $scope.newMonster.additionalNotes.splice(index, 1);
+        $scope.newMonster.monsterAdditionalNotes.splice(index, 1);
     }
 
     $scope.submitMonster = function(){
-        MonsterManager.createNewMonster($scope.newMonster);
+        //MonsterManager.createNewMonster($scope.newMonster);
+        MonsterManager.getAllMonsterNames();
     }
 
 }]);

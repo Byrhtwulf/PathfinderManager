@@ -25,6 +25,15 @@ MonsterService.service('MonsterManager', function($http){
         }
     };
 
+    this.getAllMonsterNames = function(){
+        $http({
+            url:"http://localhost:53927/api/initiativetrackernameautocomplete",
+            method: "get"
+        }).success(function(data){
+            return data;
+        });
+    }
+
     this.createNewMonster = function(newMonster){
         var monsterData = angular.toJson(newMonster);
         $http({

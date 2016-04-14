@@ -5,10 +5,14 @@ var PathfinderManager = angular.module('PathfinderManager', ['cfp.hotkeys', "che
     "PathfinderManager.DiceRoller", "PathfinderManager.MonsterService", "PathfinderManager.MonsterDisplay", "PathfinderManager.InitiativeTrackerService",
     "PathfinderManager.InitiativeTracker", "PathfinderManager.MonsterCreator", ]);
 
-PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal', 'InitiativeTrackerService', function($scope, hotkeys, $uibModal, InitiativeTrackerService) {
+PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal', 'InitiativeTrackerService', 'MonsterManager',
+    function($scope, hotkeys, $uibModal, InitiativeTrackerService, MonsterManager) {
+
     $scope.roundCounter = 1; //Current Number of Rounds
     $scope.numOfActions = 0; //Number of characters that have gone in current round
     $scope.newCharacterName = "";
+
+    $scope.monsterNames = MonsterManager.getAllMonsterNames();
 
     //Watches Character data in InitiativeTracker
     $scope.$watch(

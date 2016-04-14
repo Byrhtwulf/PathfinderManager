@@ -29,6 +29,9 @@
     margin-bottom:0px;
 }
 
+.attack-fields{
+    margin-left:20px;
+}
 .add{
      background-image:url(/app/images/add.jpg);
      background-repeat:no-repeat;
