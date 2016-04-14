@@ -6,18 +6,21 @@ var PathfinderManager = angular.module('PathfinderManager', ['cfp.hotkeys', "che
     "PathfinderManager.InitiativeTracker","ngRoute" ]);
 
 
-PathfinderManager.config(function($routeProvider){
-   $routeProvider
-       .when('/',{
-           templateUrl : 'InitiativeTracker.html',
-           controller : 'CombatManager'
-       })
-       .when('/MonsterCreator',{
-           templateURL : 'MonsterCreator.html',
-           controller : 'MonsterCreator'
-       });
-
-});
+PathfinderManager.config(['$routeProvider',
+    function($routeProvider) {
+        $routeProvider.
+            when('/', {
+                templateUrl: 'InitiativeTracker.html',
+                controller: 'CombatManager'
+            }).
+            when('/MonsterCreator', {
+                templateUrl: '/app/Components/MonsterCreator/MonsterCreator.html',
+                controller: 'MonsterCreator'
+            }).
+            otherwise({
+                redirectTo: '/'
+            });
+    }]);
 
 
 PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal', 'InitiativeTrackerService', '$timeout', 'MonsterManager', function($scope, hotkeys, $uibModal, InitiativeTrackerService, $timeout, MonsterManager) {
