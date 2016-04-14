@@ -4,7 +4,7 @@
 var PathfinderManager = angular.module('PathfinderManager', ['cfp.hotkeys', "checklist-model", "ngAnimate", "ui.bootstrap",
     "PathfinderManager.DiceRoller", "PathfinderManager.MonsterService", "PathfinderManager.MonsterDisplay", "PathfinderManager.InitiativeTrackerService",
     "PathfinderManager.InitiativeTracker","ngRoute" ]);
-    "PathfinderManager.InitiativeTracker", "PathfinderManager.MonsterCreator", ]);
+
 
 PathfinderManager.config(function($routeProvider){
    $routeProvider
@@ -20,9 +20,8 @@ PathfinderManager.config(function($routeProvider){
 });
 
 
-PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal', 'InitiativeTrackerService', '$timeout', function($scope, hotkeys, $uibModal, InitiativeTrackerService, $timeout) {
-PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal', 'InitiativeTrackerService', 'MonsterManager',
-    function($scope, hotkeys, $uibModal, InitiativeTrackerService, MonsterManager) {
+PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal', 'InitiativeTrackerService', '$timeout', 'MonsterManager', function($scope, hotkeys, $uibModal, InitiativeTrackerService, $timeout, MonsterManager) {
+
 
     $scope.roundCounter = 1; //Current Number of Rounds
     $scope.numOfActions = 0; //Number of characters that have gone in current round
