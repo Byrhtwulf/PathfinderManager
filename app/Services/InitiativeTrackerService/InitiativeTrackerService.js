@@ -25,9 +25,13 @@ InitiativeTrackerService.service('InitiativeTrackerService', ['MonsterManager', 
     if (newCharacterInitiative == "" || newCharacterInitiative == undefined){
       newCharacterInitiative = 1;
     }
-    if (newCharacterName.trim() != "") {
-      this.characterData.push(this.createNewCharacterGroup(newCharacterName, newCharacterInitiative, newCharacterHp, newCharacterCount));
+    var characterName = "";
+    if (newCharacterName.Name) {
+      characterName = newCharacterName.Name;
+    }else {
+      characterName = newCharacterName.trim();
     }
+    this.characterData.push(this.createNewCharacterGroup(characterName, newCharacterInitiative, newCharacterHp, newCharacterCount));
   };
 
   //Create New Character Group to add to initiative

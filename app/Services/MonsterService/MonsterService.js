@@ -26,12 +26,12 @@ MonsterService.service('MonsterManager', function($http){
     };
 
     this.getAllMonsterNames = function(){
-        $http({
+        var promise = $http({
             url:"http://localhost:53927/api/initiativetrackernameautocomplete",
-            method: "get"
-        }).success(function(data){
-            return data;
-        });
+            method: "get",
+            cache: true
+        })
+        return promise;
     }
 
     this.createNewMonster = function(newMonster){

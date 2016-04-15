@@ -3,7 +3,7 @@
 // Declare app level module which depends on views, and components
 var PathfinderManager = angular.module('PathfinderManager', ['cfp.hotkeys', "checklist-model", "ngAnimate", "ui.bootstrap",
     "PathfinderManager.DiceRoller", "PathfinderManager.MonsterService", "PathfinderManager.MonsterDisplay", "PathfinderManager.InitiativeTrackerService",
-    "PathfinderManager.InitiativeTracker","ngRoute", 'ngMaterial']);
+    "PathfinderManager.InitiativeTracker", "PathfinderManager.MonsterCreator", "ngRoute", 'ngMaterial']);
 
 
 PathfinderManager.config(['$routeProvider',
@@ -15,7 +15,7 @@ PathfinderManager.config(['$routeProvider',
             }).
             when('/MonsterCreator', {
                 templateUrl: '/app/Components/MonsterCreator/MonsterCreator.html',
-                controller: '/app/Components/MonsterCreator/MonsterCreator.js/creator'
+                controller: 'MonsterCreator'
             }).
             otherwise({
                 redirectTo: '/'
@@ -32,8 +32,9 @@ PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal',
     $scope.showDiceRoller = false;
     $scope.roundTimer = 0;
     $scope.newCharacterName = "";
-    $scope.searchText = "";
-    $scope.selectedItem = "";
+    $scope.newCharacterInitiative = "";
+    $scope.newCharacterCount = 1;
+    $scope.newCharacterHp = "";
 
 
     $scope.toggleDiceRoller = function(){
@@ -45,7 +46,10 @@ PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal',
         }
     };
 
-    $scope.monsterNames = MonsterManager.getAllMonsterNames();
+    $scope.monsterNames = null;
+    MonsterManager.getAllMonsterNames().then(function(response){
+       $scope.monsterNames = response.data;
+    });
 
     //Watches Character data in InitiativeTracker
     $scope.$watch(
@@ -86,10 +90,10 @@ PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal',
     //Adds character to initiative and resets initiative tracker form
     $scope.addCharactersToInitiative = function (newCharacterName, newCharacterInitiative, newCharacterHp, newCharacterCount) {
         InitiativeTrackerService.addCharactersToInitiative(newCharacterName, newCharacterInitiative, newCharacterHp, newCharacterCount);
-        $scope.newCharacterName = "";
-        $scope.newCharacterInitiative = "";
-        $scope.newCharacterCount = 1;
-        $scope.newCharacterHp = "";
+        this.newCharacterName = "";
+        this.newCharacterInitiative = "";
+        this.newCharacterCount = 1;
+        this.newCharacterHp = "";
     }
 
     //Create Modal Window for adding Group Status
@@ -152,8 +156,12 @@ PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal',
     }
 
     $scope.autoCompleteSearch = function (query) {
-        var results = query ? $scope.monsterNames.filter(autoCompleteFilter(query)) : $scope.monsterNames;
-        return results;
+        $http({
+            url:"http://localhost:53927/api/initiativetrackernameautocomplete",
+            method: "get"
+        }).success(function(data){
+            return data;
+        });
     }
     $scope.autoCompleteFilter = function(query) {
         var lowercaseQuery = angular.lowercase(query);
