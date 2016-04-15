@@ -14,7 +14,7 @@ PathfinderManager.config(function($routeProvider){
        })
        .when('/MonsterCreator',{
            templateURL : 'MonsterCreator.html',
-           controller : 'MonsterCreatorController'
+           controller : 'MonsterCreator'
        });
 
 });
