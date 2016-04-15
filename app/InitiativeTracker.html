@@ -15,12 +15,32 @@
 <!--Display Round Counter-->
 <div class="row">
     <div id="round-counter" class="col-xs-1">
-        <span>Round: {{roundCounter}}</span>
+        <span><b>Round:</b> {{roundCounter}}</span>
     </div>
 
     <!--Display Round Timer-->
     <div id="round-timer" class="col-xs-1">
-        <span>Timer: {{roundTimer}}</span>
+        <span><b>Timer:</b> {{roundTimer}}</span>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-3">
+        <!--<md-autocomplete
+                md-selected-item="selectedItem"
+                md-search-text="searchText"
+                md-items="item in querySearch(searchText)"
+                md-item-text="item.display"
+                md-min-length="1"
+                md-search-text-change= null
+                md-selected-item-change= null
+                placeholder="Monster Name">
+            <md-item-template>
+                <span md-highlight-text="searchText" md-highlight-flags="^i">{{item.display}}</span>
+            </md-item-template>
+            <md-not-found>
+                No monsters matching "{{searchText}}" were found.
+            </md-not-found>
+        </md-autocomplete>-->
     </div>
 </div>
 

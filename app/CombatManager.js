@@ -3,7 +3,7 @@
 // Declare app level module which depends on views, and components
 var PathfinderManager = angular.module('PathfinderManager', ['cfp.hotkeys', "checklist-model", "ngAnimate", "ui.bootstrap",
     "PathfinderManager.DiceRoller", "PathfinderManager.MonsterService", "PathfinderManager.MonsterDisplay", "PathfinderManager.InitiativeTrackerService",
-    "PathfinderManager.InitiativeTracker","ngRoute" ]);
+    "PathfinderManager.InitiativeTracker", "PathfinderManager.MonsterCreator", "ngRoute", 'ngMaterial']);
 
 
 PathfinderManager.config(['$routeProvider',
@@ -14,8 +14,8 @@ PathfinderManager.config(['$routeProvider',
                 controller: 'CombatManager'
             }).
             when('/MonsterCreator', {
-                templateUrl: '/app/Components/MonsterCreator/MonsterCreator.html',
-                controller: '/app/Components/MonsterCreator/MonsterCreator.js/creator'
+                templateUrl: 'Components/MonsterCreator/MonsterCreator.html',
+                controller: 'MonsterCreator'
             }).
             otherwise({
                 redirectTo: '/'
@@ -23,7 +23,8 @@ PathfinderManager.config(['$routeProvider',
     }]);
 
 
-PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal', 'InitiativeTrackerService', '$timeout', 'MonsterManager', function($scope, hotkeys, $uibModal, InitiativeTrackerService, $timeout, MonsterManager) {
+PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal', 'InitiativeTrackerService', '$timeout', 'MonsterManager',
+    function($scope, hotkeys, $uibModal, InitiativeTrackerService, $timeout, MonsterManager) {
 
 
     $scope.roundCounter = 1; //Current Number of Rounds
@@ -31,6 +32,9 @@ PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal',
     $scope.showDiceRoller = true;
     $scope.roundTimer = 0;
     $scope.newCharacterName = "";
+    $scope.newCharacterInitiative = "";
+    $scope.newCharacterCount = 1;
+    $scope.newCharacterHp = "";
 
 
     $scope.toggleDiceRoller = function(){
@@ -42,7 +46,10 @@ PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal',
         }
     };
 
-    $scope.monsterNames = MonsterManager.getAllMonsterNames();
+    $scope.monsterNames = null;
+    MonsterManager.getAllMonsterNames().then(function(response){
+       $scope.monsterNames = response.data;
+    });
 
     //Watches Character data in InitiativeTracker
     $scope.$watch(
@@ -83,10 +90,10 @@ PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal',
     //Adds character to initiative and resets initiative tracker form
     $scope.addCharactersToInitiative = function (newCharacterName, newCharacterInitiative, newCharacterHp, newCharacterCount) {
         InitiativeTrackerService.addCharactersToInitiative(newCharacterName, newCharacterInitiative, newCharacterHp, newCharacterCount);
-        $scope.newCharacterName = "";
-        $scope.newCharacterInitiative = "";
-        $scope.newCharacterCount = 1;
-        $scope.newCharacterHp = "";
+        this.newCharacterName = "";
+        this.newCharacterInitiative = "";
+        this.newCharacterCount = 1;
+        this.newCharacterHp = "";
     }
 
     //Create Modal Window for adding Group Status
@@ -146,6 +153,21 @@ PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal',
         $scope.addCharactersToInitiative("Start of New Round", 1000, 0,1);
         //Order list of characters by initiative
         InitiativeTrackerService.sortCharacterDataByInitiative();
+    }
+
+    $scope.autoCompleteSearch = function (query) {
+        $http({
+            url:"http://localhost:53927/api/initiativetrackernameautocomplete",
+            method: "get"
+        }).success(function(data){
+            return data;
+        });
+    }
+    $scope.autoCompleteFilter = function(query) {
+        var lowercaseQuery = angular.lowercase(query);
+        return function filterFn(monster) {
+            return (monster.Name.toLowerCase().indexOf(lowercaseQuery) === 0);
+        };
     }
 }]);
 
