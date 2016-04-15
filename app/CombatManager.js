@@ -28,7 +28,7 @@ PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal',
 
     $scope.roundCounter = 1; //Current Number of Rounds
     $scope.numOfActions = 0; //Number of characters that have gone in current round
-    $scope.showDiceRoller = false;
+    $scope.showDiceRoller = true;
     $scope.roundTimer = 0;
     $scope.newCharacterName = "";
 
