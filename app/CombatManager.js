@@ -14,7 +14,7 @@ PathfinderManager.config(['$routeProvider',
                 controller: 'CombatManager'
             }).
             when('/MonsterCreator', {
-                templateUrl: '/app/Components/MonsterCreator/MonsterCreator.html',
+                templateUrl: 'Components/MonsterCreator/MonsterCreator.html',
                 controller: 'MonsterCreator'
             }).
             otherwise({
