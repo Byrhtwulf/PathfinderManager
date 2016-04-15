@@ -3,7 +3,7 @@
 // Declare app level module which depends on views, and components
 var PathfinderManager = angular.module('PathfinderManager', ['cfp.hotkeys', "checklist-model", "ngAnimate", "ui.bootstrap",
     "PathfinderManager.DiceRoller", "PathfinderManager.MonsterService", "PathfinderManager.MonsterDisplay", "PathfinderManager.InitiativeTrackerService",
-    "PathfinderManager.InitiativeTracker","ngRoute" ]);
+    "PathfinderManager.InitiativeTracker","ngRoute", 'ngMaterial']);
 
 
 PathfinderManager.config(function($routeProvider){
@@ -20,7 +20,8 @@ PathfinderManager.config(function($routeProvider){
 });
 
 
-PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal', 'InitiativeTrackerService', '$timeout', 'MonsterManager', function($scope, hotkeys, $uibModal, InitiativeTrackerService, $timeout, MonsterManager) {
+PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal', 'InitiativeTrackerService', '$timeout', 'MonsterManager',
+    function($scope, hotkeys, $uibModal, InitiativeTrackerService, $timeout, MonsterManager) {
 
 
     $scope.roundCounter = 1; //Current Number of Rounds
@@ -28,6 +29,8 @@ PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal',
     $scope.showDiceRoller = false;
     $scope.roundTimer = 0;
     $scope.newCharacterName = "";
+    $scope.searchText = "";
+    $scope.selectedItem = "";
 
 
     $scope.toggleDiceRoller = function(){
@@ -143,6 +146,17 @@ PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal',
         $scope.addCharactersToInitiative("Start of New Round", 1000, 0,1);
         //Order list of characters by initiative
         InitiativeTrackerService.sortCharacterDataByInitiative();
+    }
+
+    $scope.autoCompleteSearch = function (query) {
+        var results = query ? $scope.monsterNames.filter(autoCompleteFilter(query)) : $scope.monsterNames;
+        return results;
+    }
+    $scope.autoCompleteFilter = function(query) {
+        var lowercaseQuery = angular.lowercase(query);
+        return function filterFn(monster) {
+            return (monster.Name.toLowerCase().indexOf(lowercaseQuery) === 0);
+        };
     }
 }]);
 
