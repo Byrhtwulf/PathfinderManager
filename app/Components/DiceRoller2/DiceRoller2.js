@@ -10,13 +10,7 @@ roller.controller('DiceRoller2', ['$scope', function($scope) {
     ]
 
     //Array for custom dice formula
-    $scope.customRollsButtons = [
-        {   label:"3d20",
-            diceTotal:"",
-            diceHistory:[],
-
-        }
-    ];
+    $scope.customRollsButtons = [];
 
     //Empty array to copy, used to clear dice rolls
     $scope.emptyArray = [];

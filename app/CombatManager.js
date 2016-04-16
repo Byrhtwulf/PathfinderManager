@@ -29,7 +29,7 @@ PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal',
 
     $scope.roundCounter = 1; //Current Number of Rounds
     $scope.numOfActions = 0; //Number of characters that have gone in current round
-    $scope.showDiceRoller = true;
+    $scope.showDiceRoller = false;
     $scope.roundTimer = 0;
     $scope.newCharacterName = "";
     $scope.newCharacterInitiative = "";
@@ -89,6 +89,13 @@ PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal',
 
     //Adds character to initiative and resets initiative tracker form
     $scope.addCharactersToInitiative = function (newCharacterName, newCharacterInitiative, newCharacterHp, newCharacterCount) {
+        if (newCharacterName.ID){
+            MonsterManager.getMonsterByID((newCharacterName.ID)).then(function(response){
+                var monster = JSON.parse(response.data)
+                MonsterManager.addMonsterToArray(monster);
+                InitiativeTrackerService.setHp(newCharacterName.ID, monster.HP);
+            })
+        }
         InitiativeTrackerService.addCharactersToInitiative(newCharacterName, newCharacterInitiative, newCharacterHp, newCharacterCount);
         this.newCharacterName = "";
         this.newCharacterInitiative = "";

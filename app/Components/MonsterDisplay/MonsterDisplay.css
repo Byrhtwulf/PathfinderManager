@@ -1,3 +1,15 @@
+.row-height {
+    display: table;
+    table-layout: fixed;
+    height: 100%;
+    width: 100%;
+}
+.col-height {
+    display: table-cell;
+    float: none;
+    height: 100%;
+}
+
 .character-header{
     border-top:1px solid black;
     border-bottom:1px solid black;
@@ -20,3 +32,23 @@
 .character-additional-info{
     margin-bottom:10px;
 }
+
+#character-defense div{
+    border-top:1px black solid;
+}
+
+.monster-display-label{
+    border-bottom: 1px black solid;
+    border-right: 1px black solid;
+    border-left: 1px black solid;
+    padding-top:3px;
+    padding-bottom: 3px;
+}
+
+.monster-display-content{
+    border-bottom: 1px black solid;
+    border-right: 1px black solid;
+    padding-top: 3px;
+    padding-bottom:3px;
+}
+

@@ -75,11 +75,11 @@
                     <div class="row attack" ng-repeat="attack in attackGroup.groupAttacks">
                         <div class="col-xs-10">
                             <fieldset class="form-group row attack-fields">
-                                <div class="col-xs-3">
-                                    <input type="text" class="form-control" ng-model="attack.name" name="weaponName" placeholder="Weapon Name">
-                                </div>
                                 <div class="col-xs-2">
                                     <input type="text" class="form-control" ng-model="attack.bonusToHit" name="bonusToHit" placeholder="To Hit">
+                                </div>
+                                <div class="col-xs-3">
+                                    <input type="text" class="form-control" ng-model="attack.name" name="weaponName" placeholder="Weapon Name">
                                 </div>
                                 <div class="col-xs-1">
                                     <input type="number" class="form-control" ng-model="attack.diceCount" name="diceCount" placeholder="Count">

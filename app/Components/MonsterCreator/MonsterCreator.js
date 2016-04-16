@@ -38,7 +38,7 @@ creator.controller('MonsterCreator', ['$scope', 'MonsterManager', function($scop
         feats: "",
         skills: "",
         description: "",
-        monsterAdditionalNotes: [{noteTitle: "Notes", noteBody: ""}]
+        monsterAdditionalNotes: [{noteTitle: "Special", noteBody: ""}]
     }
 
     $scope.addAttackGroup = function(){
@@ -70,8 +70,7 @@ creator.controller('MonsterCreator', ['$scope', 'MonsterManager', function($scop
     }
 
     $scope.submitMonster = function(){
-        //MonsterManager.createNewMonster($scope.newMonster);
-        MonsterManager.getAllMonsterNames();
+        MonsterManager.createNewMonster($scope.newMonster);
     }
 
 }]);

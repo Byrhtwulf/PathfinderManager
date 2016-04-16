@@ -26,22 +26,26 @@ InitiativeTrackerService.service('InitiativeTrackerService', ['MonsterManager', 
       newCharacterInitiative = 1;
     }
     var characterName = "";
-    if (newCharacterName.Name) {
+    var newCharacterID = 0;
+    if (newCharacterName.Name && newCharacterName.ID) {
       characterName = newCharacterName.Name;
+      newCharacterID = newCharacterName.ID;
     }else {
       characterName = newCharacterName.trim();
     }
-    this.characterData.push(this.createNewCharacterGroup(characterName, newCharacterInitiative, newCharacterHp, newCharacterCount));
+    this.characterData.push(this.createNewCharacterGroup(characterName, newCharacterInitiative, newCharacterHp, newCharacterCount, newCharacterID));
   };
 
   //Create New Character Group to add to initiative
-  this.createNewCharacterGroup = function(newCharacterName, newCharacterInitiative, newCharacterHp, newCharacterCount){
+  this.createNewCharacterGroup = function(newCharacterName, newCharacterInitiative, newCharacterHp, newCharacterCount, newCharacterID){
 
     //Creates new character Group with empty array of characters and sets initiative
     var characterGroup = {
       characters: [],
       initiative: newCharacterInitiative,
+      ID:0
     }
+    characterGroup.ID = newCharacterID || 0;
     //Populates characters in characterGroup
     for(var i = 0; i < newCharacterCount; i++) {
       var characterName = newCharacterName.charAt(0).toUpperCase() + newCharacterName.slice(1);
@@ -104,6 +108,15 @@ InitiativeTrackerService.service('InitiativeTrackerService', ['MonsterManager', 
       character.hpDifference="";
   }
 
+  this.setHp = function(ID, Hp){
+    var character = $.grep(this.characterData, function(obj){
+      return obj.ID == ID
+    })[0];
+    character.characters.map(function(c){
+      c.currentHp = Hp;
+    })
+  }
+
   //Moves to next character group in initiative order
   this.nextInitiative = function(){
 
@@ -121,10 +134,9 @@ InitiativeTrackerService.service('InitiativeTrackerService', ['MonsterManager', 
       });
     });
 
-    var currentCharacterName = this.characterData[0].characters[0].name;
+    var currentCharacterID = this.characterData[0].ID;
     //Updates monster display if current character is monster
-    MonsterManager.updateCurrentMonster(currentCharacterName);
-    MonsterMigrator.createMonsterFromDatabase();
+    MonsterManager.updateCurrentMonster(currentCharacterID);
   };
 
 }]);
