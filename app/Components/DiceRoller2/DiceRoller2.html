@@ -1,90 +1,32 @@
 <div class="row" >
-    <div class="col-xs-12" id="combat-manager-dice-roller" ng-controller="DiceRoller">
+    <div class="col-xs-12" id="combat-manager-dice-roller" ng-controller="DiceRoller2">
         <!--Dice Headers-->
         <div class = "row">
-            <div class="col-xs-6">
-                <input type="text" class="form-control" ng-model="customRolls.customRollFormula2" placeholder="Custom Dice Roll">
+            <div class="col-xs-6 bottom-buffer">
+                <input type="text" class="form-control " ng-model="customRolls.customRollFormula" placeholder="Custom Dice Roll">
             </div>
             <div class="col-xs-3">
-                <input type="button" ng-model="customRolls.customRollsFormula" class="btn btn-danger" ng-click="addDice()" value="Add Dice">
+                <input type="button" class="btn btn-danger" ng-click="addDice(customRolls.customRollFormula)" value="Add Dice">
             </div>
         </div>
 
-        <div class="row roll-dice" ng-repeat="dice in customRolls">
+        <div class="row roll-dice">
             <div class="col-xs-12">
-                <div class="row">
+                <div class="row bottom-buffer"  ng-repeat="dice in customRollsButtons track by $index">
                     <div class="col-xs-3">
-                        <input type="button" value="{{dice.label}}">
+                        <input type="button" class="btn btn-primary btn-block " ng-click="rollCustomDice($index,dice.label)" value="Roll {{dice.label}}">
+                    </div>
+                    <div class="col-xs-5">
+                        <div class="dice-total">{{dice.diceTotal}}</div>
+                    </div>
+                    <div class="col-xs-3">
+                        <input type="button" class="btn btn-danger pull-right" ng-click="clearDice($index)" value = "Clear">;
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="row roll-dice" ng-repeat="dice in diceList">
-            <div class="col-xs-12">
-                <div class="row">
-                    <div class="col-xs-3"><!--Button to Roll Dice-->
-                        <input type="button" class="btn btn-primary btn-block" ng-click="rollDice(dice, dice.diceValue, this.diceCount, this.diceBonus)" value="Roll D{{dice.diceValue}}" />
-                    </div>
-                    <div class="col-xs-1"><!--Current Roll with modifier-->
-                        <div class="dice-total">{{dice.rolls[dice.rolls.length-1].currentTotal}}</div>
-                    </div>
-                    <div class="col-xs-2"><!--Clear current dice-->
-                        <input type="button" class="btn btn-danger" ng-click="clearDiceRolls(dice)" value="Clear" />
-                    </div>
 
-                </div>
-                <div class="row roll-history" ng-repeat="historyRoll in dice.rolls" ng-show="showDiceHistory">
-                    <div class="col-xs-2"></div>
-                    <div class="col-xs-6">
-                        <!--Shows Dice History in format: 1d20+5 = 10+5 = 15-->
-                        <b>Roll:</b> {{historyRoll.diceCount}}d{{historyRoll.diceValue}}+{{historyRoll.diceBonus}} = {{historyRoll.currentRoll}}+{{historyRoll.diceBonus}} = {{historyRoll.currentTotal}}
-                        <!--Checkbox to show/hide dice breakdown for current roll-->
-                        <span class="show-breakdown-checkbox"><input type="checkbox" ng-model="showDiceBreakdown" value="showDiceHistory"/></span>
-                        <div class="row roll-breakdown" ng-repeat="breakdownRoll in historyRoll.rolls track by $index" ng-show="showDiceBreakdown">
-                            <div class="col-xs-2"></div>
-                            <div class="col-xs-10"><!--Shows breakdown in format: 1d20 = 10-->
-                                <b>Roll {{$index+1}}:</b> {{breakdownRoll.diceCount}}d{{breakdownRoll.diceValue}} = {{breakdownRoll.currentTotal}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <div class="row" id="custom-roll">
-            <div class="col-xs-7"><!--Field for custom roll formula-->
-                <!--<input type=text class="form-control" ng-model="customRolls.customRollFormula" placeholder="Custom Dice Formula" ng-keydown="rollCustomDice($event, customRolls.customRollFormula)">-->
-            </div>
-            <div class="col-xs-1"><!--Current Roll without modifier-->
-                <div class="dice-roll">{{customRolls.rolls[customRolls.rolls.length-1].currentRoll}}</div>
-            </div>
-            <div class="col-xs-1"><!--Current Roll with modifier-->
-                <div class="dice-total">{{customRolls.rolls[customRolls.rolls.length-1].currentTotal}}</div>
-            </div>
-            <div class="col-xs-1"><!--Checkbox to show/hide dice history-->
-                <input type="checkbox" ng-model="showCustomRollHistory" value="showDiceHistory"/>
-            </div>
-            <div class="col-xs-2"><!--Clear Custom dice-->
-                <input type="button" class="btn btn-danger" ng-click="clearCustomRoll()" value="Clear" />
-            </div>
-
-        </div>
-        <div class="row roll-history" ng-repeat="historyRoll in customRolls.rolls" ng-show="showCustomRollHistory">
-            <div class="col-xs-2"></div>
-            <div class="col-xs-6">
-                <!--Shows Dice History in format: 1d20+5 = 10+5 = 15-->
-                <b>Roll:</b> {{historyRoll.diceCount}}d{{historyRoll.diceValue}}+{{historyRoll.diceBonus}} = {{historyRoll.currentRoll}}+{{historyRoll.diceBonus}} = {{historyRoll.currentTotal}}
-                <!--Checkbox to show/hide dice breakdown for custom roll-->
-                <span class="show-breakdown-checkbox"><input type="checkbox" ng-model="showDiceBreakdown" value="showDiceHistory"/></span>
-                <div class="row roll-breakdown" ng-repeat="breakdownRoll in historyRoll.rolls track by $index" ng-show="showDiceBreakdown">
-                    <div class="col-xs-2"></div>
-                    <div class="col-xs-10">
-                        <b>Roll {{$index+1}}:</b> {{breakdownRoll.diceCount}}d{{breakdownRoll.diceValue}} = {{breakdownRoll.currentTotal}}
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="row">
             <div class="col-xs-12" ><!--Button to clear all dice-->
                 <input type="button" class="dice-clear-all btn btn-danger pull-right" ng-click="clearAllDice()" value="Clear All Dice"/><!--Button to clear dice roller-->
@@ -92,4 +34,4 @@
         </div>
     </div>
 </div>
-<link rel="stylesheet" href="Components/DiceRoller/DiceRoller.css">
+<link rel="stylesheet" href="Components/DiceRoller2/DiceRoller2.css">
