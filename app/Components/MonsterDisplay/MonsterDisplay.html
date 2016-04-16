@@ -1,5 +1,5 @@
 <div class="row" ng-controller="MonsterDisplay">
-    <div class="col-xs-10" id="combat-manager-dice-roller">
+    <div class="col-xs-9" id="combat-manager-dice-roller">
         <div class="row" id="character-heading">
             <div class="col-xs-18">
                 <b>{{currentMonster.name}}</b>
@@ -88,7 +88,7 @@
         </div>
 
     </div>
-    <div class="col-xs-2 monster-buttons">
+    <div class="col-xs-3 monster-buttons">
         <div class="row" ng-repeat="monster in monsters">
             <button type=button class="btn btn-secondary monster-button" ng-click="changeMonster(monster.ID)">{{monster.name}}</button>
         </div>

@@ -167,7 +167,8 @@ MonsterService.service('MonsterManager', function($http){
     this.setMonsterAdditionalNotes = function(monster, newMonster){
         for (var i = 0; i < newMonster.Monster_Additional_Notes.length; i++){
             var note = newMonster.Monster_Additional_Notes[i];
-            var newNote = {heading:note.Name, value:note.Notes}
+            var noteValue = note.Notes.replace("\n", "<br/>");
+            var newNote = {heading:note.Name, value:noteValue}
             monster.additionalNotes.push(newNote);
         }
     }
