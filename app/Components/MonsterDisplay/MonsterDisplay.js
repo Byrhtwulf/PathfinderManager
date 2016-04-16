@@ -12,6 +12,18 @@ display.controller('MonsterDisplay', ['$scope', 'MonsterManager', function($scop
         }
     )
 
+    $scope.$watch(
+        function(){ return MonsterManager.monsters },
+
+        function(monsterList) {
+            $scope.monsters = monsterList;
+        }
+    )
+
+    $scope.changeMonster = function(ID){
+        MonsterManager.updateCurrentMonster(ID);
+    }
+
     //Roll CMB for current monster
     $scope.rollCMB = function(currentMonster){
         currentMonster.currentCMBRoll = Math.floor(Math.random() * 20) + 1;
