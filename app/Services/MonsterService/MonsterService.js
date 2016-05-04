@@ -7,7 +7,8 @@ MonsterService.service('MonsterManager', function($http){
     //Current monster object used in display
     this.currentMonster = {};
     this.monsters = [];
-
+    this.url = "http://localhost:53927/api/";
+    //this.url = "http://home.schmidtaki.com/pfmanager/api/"
     //retrieves current monster
     this.getCurrentMonster = function(){
         if (this.currentMonster === undefined) {
@@ -38,7 +39,7 @@ MonsterService.service('MonsterManager', function($http){
     //Gets monster with monsterID from database
     this.getMonsterByID = function(monsterID){
         var promise = $http({
-            url:"http://localhost:53927/api/pathfindermonster/"+monsterID,
+            url: this.url + "pathfindermonster/"+monsterID,
             method: "get",
             cache: true
         })
@@ -48,7 +49,7 @@ MonsterService.service('MonsterManager', function($http){
     //Gets list of all Monster Names
     this.getAllMonsterNames = function(){
         var promise = $http({
-            url:"http://localhost:53927/api/initiativetrackernameautocomplete",
+            url: this.url + "initiativetrackernameautocomplete",
             method: "get",
             cache: true
         })
@@ -59,10 +60,36 @@ MonsterService.service('MonsterManager', function($http){
     this.createNewMonster = function(newMonster){
         var monsterData = angular.toJson(newMonster);
         $http({
-            url: "http://localhost:53927/api/pathfindermonster",
+            url: this.url + "pathfindermonster",
             contentType: "application/json",
             method: "Put",
             data: {'monsterDataString': monsterData},
+            /*crossDomain: true,*/
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+    }
+
+    this.editMonster = function(id, newMonster){
+        var monsterData = angular.toJson(newMonster);
+        $http({
+            url: this.url + "pathfindermonstereditor/"+id,
+            contentType: "application/json",
+            method: "Put",
+            data: {'monsterDataString': monsterData},
+            /*crossDomain: true,*/
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+    }
+
+    this.deleteMonster = function(id){
+        $http({
+            url: this.url + "pathfindermonstereditor/"+id,
+            contentType: "application/json",
+            method: "Delete",
             /*crossDomain: true,*/
             headers: {
                 "Content-Type": "application/json"
