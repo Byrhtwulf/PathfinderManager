@@ -5,8 +5,16 @@ var creator = angular.module('PathfinderManager.MonsterCreator', []);
 creator.controller('MonsterCreator', ['$scope', 'MonsterManager', function($scope, MonsterManager) {
 
     MonsterManager.getAllMonsterNames().then(function(response){
-        $scope.monsterNames = response.data;
+        MonsterManager.setMonsterNames(response.data);
     });
+
+    $scope.$watch(
+        function(){ return MonsterManager.monsterNames },
+
+        function(monsterNames) {
+            $scope.monsterNames = monsterNames;
+        }
+    )
 
     $scope.currentMonsterName = "";
 
@@ -44,13 +52,21 @@ creator.controller('MonsterCreator', ['$scope', 'MonsterManager', function($scop
     }
 
     $scope.submitMonster = function(){
-        MonsterManager.createNewMonster($scope.newMonster);
+        var id = $scope.newMonster.ID;
+        var name = $scope.newMonster.name;
+        MonsterManager.addMonsterName({ID:id, Name: name});
+        MonsterManager.createNewMonster($scope.newMonster).then(function(response){
+            MonsterManager.addMonsterName(response.data);
+        });
         $scope.newMonster = angular.copy($scope.emptyMonster);
         $scope.MonsterCreated = true;
     }
 
     $scope.editMonster = function(id){
-        MonsterManager.editMonster(id, $scope.newMonster);
+        MonsterManager.removeMonsterName(id);
+        MonsterManager.editMonster(id, $scope.newMonster).then(function(response){
+            MonsterManager.addMonsterName(response.data);
+        });
         $scope.newMonster = angular.copy($scope.emptyMonster);
         $scope.MonsterEdited = true;
     }
@@ -73,6 +89,7 @@ creator.controller('MonsterCreator', ['$scope', 'MonsterManager', function($scop
     }
 
     $scope.deleteMonster = function(id){
+        MonsterManager.removeMonsterName(id);
         MonsterManager.deleteMonster(id);
         $scope.newMonster = angular.copy($scope.emptyMonster);
         $scope.MonsterDeleted = true;

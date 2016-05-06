@@ -9,6 +9,7 @@
         <div class = "alert alert-success" ng-show="MonsterDeleted">
             <strong>Monster Deleted Successfully</strong>
         </div>
+        {{$scope.monsterNames}}
         <div class="row monster-search">
             <div class="col-xs-5">
                 <input type="text" autocomplete="off" ng-model="currentMonsterName" uib-typeahead="monster as monster.Name for monster in monsterNames | filter: $viewValue | limitTo: 8"

@@ -3,7 +3,7 @@
 // Declare app level module which depends on views, and components
 var PathfinderManager = angular.module('PathfinderManager', ['cfp.hotkeys', "checklist-model", "ngAnimate", "ui.bootstrap",
     "PathfinderManager.DiceRoller", "PathfinderManager.MonsterService", "PathfinderManager.MonsterDisplay", "PathfinderManager.InitiativeTrackerService",
-    "PathfinderManager.InitiativeTracker", "PathfinderManager.MonsterCreator", "ngRoute", 'ngMaterial']);
+    "PathfinderManager.InitiativeTracker", "PathfinderManager.MonsterCreator", "PathfinderManager.MonsterRoller", "ngRoute", 'ngMaterial']);
 
 
 PathfinderManager.config(['$routeProvider',
@@ -16,6 +16,9 @@ PathfinderManager.config(['$routeProvider',
             when('/MonsterCreator', {
                 templateUrl: 'Components/MonsterCreator/MonsterCreator.html',
                 controller: 'MonsterCreator'
+            }).when('/MonsterRoller', {
+                templateUrl: 'Components/MonsterRoller/MonsterRoller.html',
+                controller: 'MonsterRoller'
             }).
             otherwise({
                 redirectTo: '/'
@@ -46,10 +49,17 @@ PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal',
         }
     };
 
-    $scope.monsterNames = null;
     MonsterManager.getAllMonsterNames().then(function(response){
-       $scope.monsterNames = response.data;
+       MonsterManager.setMonsterNames(response.data);
     });
+
+    $scope.$watch(
+        function(){ return MonsterManager.monsterNames },
+
+        function(monsterNames) {
+            $scope.monsterNames = monsterNames;
+        }
+    )
 
     //Watches Character data in InitiativeTracker
     $scope.$watch(

@@ -1,0 +1,71 @@
+.row-height {
+    display: table;
+    table-layout: fixed;
+    height: 100%;
+    width: 100%;
+}
+.col-height {
+    display: table-cell;
+    float: none;
+    height: 100%;
+}
+
+.character-header{
+    border-top:1px solid black;
+    border-bottom:1px solid black;
+    font-style: italic;
+    text-transform: uppercase;
+    margin-top:10px;
+    margin-bottom:10px;
+}
+
+.character-attacks{
+    margin-bottom:5px;
+}
+
+.critical-attack{
+    color:green;
+}
+.critical-miss{
+    color:red;
+}
+.character-additional-info{
+    margin-bottom:10px;
+}
+
+#character-HP div{
+    border-top:1px black solid;
+}
+
+.monster-display-label{
+    border-bottom: 1px black solid;
+    border-right: 1px black solid;
+    border-left: 1px black solid;
+    padding-top:3px;
+    padding-bottom: 3px;
+}
+
+.monster-display-content{
+    border-bottom: 1px black solid;
+    border-right: 1px black solid;
+    padding-top: 3px;
+    padding-bottom:3px;
+}
+
+.monster-buttons{
+    margin-top:18px;
+}
+.monster-button{
+    margin-bottom:5px;
+    margin-left:5px;
+}
+
+#add-monster-button{
+    margin-right:20px;
+}
+
+#hp-display{
+    text-align: center;
+    padding-top: 9px;
+    font-weight: bold;
+}

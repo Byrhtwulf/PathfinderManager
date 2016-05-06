@@ -7,8 +7,9 @@ MonsterService.service('MonsterManager', function($http){
     //Current monster object used in display
     this.currentMonster = {};
     this.monsters = [];
-    this.url = "http://localhost:53927/api/";
-    //this.url = "http://home.schmidtaki.com/pfmanager/api/"
+    this.monsterNames = [];
+    //this.url = "http://localhost:53927/api/";
+    this.url = "https://home.schmidtaki.com/pfmanager/api/"
     //retrieves current monster
     this.getCurrentMonster = function(){
         if (this.currentMonster === undefined) {
@@ -29,6 +30,23 @@ MonsterService.service('MonsterManager', function($http){
             }
         }
     };
+    //Removes monster name from list of monster names when monster is deleted
+    this.removeMonsterName = function(ID){
+        if (ID != 0) {
+            var monsterArray = $.grep(this.monsterNames, function (x) {
+                return x.ID == ID
+            });
+            if (monsterArray.length != 0) {
+                var index = this.monsterNames.indexOf(monsterArray[0]);
+                this.monsterNames.splice(index, 1);
+            }
+        }
+    }
+
+    //Adds monster name to list of monster names when monster is added or edited
+    this.addMonsterName = function(monsterName){
+        this.monsterNames.push(monsterName);
+    }
 
     //Adds monster to array of monsters
     this.addMonsterToArray = function(monster){
@@ -56,10 +74,15 @@ MonsterService.service('MonsterManager', function($http){
         return promise;
     }
 
+    //Set monster name to new list of monster names
+    this.setMonsterNames = function(names){
+        this.monsterNames = names;
+    }
+
     //Takes monster from MonsterCreator form and creates new monster in database
     this.createNewMonster = function(newMonster){
         var monsterData = angular.toJson(newMonster);
-        $http({
+        var promise = $http({
             url: this.url + "pathfindermonster",
             contentType: "application/json",
             method: "Put",
@@ -69,11 +92,13 @@ MonsterService.service('MonsterManager', function($http){
                 "Content-Type": "application/json"
             }
         });
+        return promise;
     }
 
+    //Edits existing monster by deleting existing monster and creating new one
     this.editMonster = function(id, newMonster){
         var monsterData = angular.toJson(newMonster);
-        $http({
+        var promise = $http({
             url: this.url + "pathfindermonstereditor/"+id,
             contentType: "application/json",
             method: "Put",
@@ -83,8 +108,10 @@ MonsterService.service('MonsterManager', function($http){
                 "Content-Type": "application/json"
             }
         });
+        return promise;
     }
 
+    //Deletes existing monster from database
     this.deleteMonster = function(id){
         $http({
             url: this.url + "pathfindermonstereditor/"+id,
@@ -97,6 +124,7 @@ MonsterService.service('MonsterManager', function($http){
         });
     }
 
+    //Creates new javascript object (monster) with data from database
     this.createNewMonsterData = function(newMonster){
         var monster = {
             ID: 0,
@@ -109,6 +137,7 @@ MonsterService.service('MonsterManager', function($http){
             HP: 0,
             HPMods: "",
             HD: 0,
+            currentHP: 1,
             fortitude: 0,
             reflex: 0,
             will: 0,
@@ -164,6 +193,8 @@ MonsterService.service('MonsterManager', function($http){
         monster.feats = newMonster.Feats;
         monster.skills = newMonster.skills;
         monster.description = newMonster.Description;
+        monster.attacks = [];
+        monster.monsterAdditionalNotes = [];
 
         this.setMonsterAttacks(monster, newMonster);
         this.setMonsterAdditionalNotes(monster, newMonster);
@@ -171,6 +202,7 @@ MonsterService.service('MonsterManager', function($http){
         return monster;
     }
 
+    //Initializes monster attacks
     this.setMonsterAttacks = function(monster, newMonster){
         for (var i = 0; i < newMonster.Monster_Attack_Groups.length; i++){
             var attackGroup = newMonster.Monster_Attack_Groups[i];
@@ -191,12 +223,13 @@ MonsterService.service('MonsterManager', function($http){
         }
     }
 
+    //Initializes monster additional notes
     this.setMonsterAdditionalNotes = function(monster, newMonster){
         for (var i = 0; i < newMonster.Monster_Additional_Notes.length; i++){
             var note = newMonster.Monster_Additional_Notes[i];
             var noteValue = note.Notes.replace("\n", "<br/>");
             var newNote = {heading:note.Name, value:noteValue}
-            monster.additionalNotes.push(newNote);
+            monster.monsterAdditionalNotes.push(newNote);
         }
     }
 

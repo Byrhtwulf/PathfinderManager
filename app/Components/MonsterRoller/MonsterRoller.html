@@ -1,0 +1,131 @@
+<div class="row" ng-controller="MonsterRoller">
+    <div class="col-xs-12">
+        <div class="row">
+            <form>
+                <div class="form-group row">
+                    <div class="col-xs-6">
+                        <input type="text" autocomplete="off" ng-model="newMonster" uib-typeahead="monster as monster.Name for monster in monsterNames | filter: $viewValue | limitTo: 8"
+                               id="add-new-character-name" class="form-control" name="character-name" placeholder="Add New Monster..."/><!--Input new character name-->
+                    </div>
+
+                    <div>
+                        <input id="add-monster-button" type="button" class="btn btn-primary" ng-click="addMonsterToDisplay(newMonster)" value="Add Monster"/>
+                        <input type="button" class="btn btn-warning" ng-click="clearName()" value="Clear Name"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row">
+            <div class="col-xs-9" id="monster-roller">
+                <div class="row" id="character-heading">
+                    <div class="col-xs-18">
+                        <b>{{currentMonster.name}}</b>
+                    </div>
+                </div>
+                <div class="row" id="character-HP">
+                    <div class="row-height">
+                        <div class="col-xs-2 col-height monster-display-label">
+                            <span>HP</span>
+                        </div>
+                        <div class="col-xs-10 col-height monster-display-content">
+                            <div class="row" style="border-top:none">
+                                <span id="hp-display" class="col-xs-1" ng-if="currentMonster.currentHP">{{currentMonster.currentHP}}</span>
+                                <span id="hp-difference" class="col-xs-3" ng-if="currentMonster.currentHP"><input type=number class="modify-hp-input form-control hpDifferenceInput" ng-model="currentMonster.hpDifference" placeholder="HP"/></span>
+                                <span id="hp-update" class="col-xs-3" ng-if="currentMonster.currentHP"><input type="button" class="btn btn-info btn-small" ng-click="updateCurrentMonsterHP(currentMonster.hpDifference)" value="Update"/></span>
+                                <span id="hp-delete" class="col-xs-3" ng-if="currentMonster.currentHP"><input type="button" class="btn btn-danger btn-small" ng-click="deleteMonster()" value="Delete"/></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="character-defense">
+                    <div class="row-height">
+                        <div class="col-xs-2 col-height monster-display-label">
+                            <span>Defense</span>
+                        </div>
+                        <div class="col-xs-10 col-height monster-display-content">
+                            <span ng-if="currentMonster.AC">AC: {{currentMonster.AC}} </span>
+                            <span ng-if="currentMonster.HP">HP: {{currentMonster.HP}} </span>
+                            <span ng-if="currentMonster.CMD">CMD: {{currentMonster.CMD}} </span>
+                            <span ng-if="currentMonster.defenses">Defenses: {{currentMonster.defenses}} </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="character-saves">
+                    <div class="row-height">
+                        <div class="col-xs-2 col-height monster-display-label">
+                            <span>Saves</span>
+                        </div>
+                        <div class="col-xs-10 col-height monster-display-content">
+                            <span ng-if="currentMonster.fortitude">+{{currentMonster.fortitude}}/</span>
+                            <span ng-if="currentMonster.reflex">+{{currentMonster.reflex}}/</span>
+                            <span ng-if="currentMonster.will">+{{currentMonster.will}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="character-offense">
+                    <div class="row-height">
+                        <div class="col-xs-2 col-height monster-display-label">
+                            Offense
+                        </div>
+
+                        <div class="col-xs-10 col-height monster-display-content">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <span ng-if="currentMonster.speed">Speed: {{currentMonster.speed}} </span>
+                                    <span ng-if="currentMonster.reach">Reach: {{currentMonster.reach}} </span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="character-attacks" ng-repeat="group in currentMonster.attacks">
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <i>{{group.groupName}}: </i>
+                                                <input type="button" class="roll-attack-group btn btn-secondary btn-sm" ng-click="rollAttack(group)" value="Attack" />
+                                            </div>
+                                        </div>
+                                        <div class="row" ng-repeat="attack in group.groupAttacks">
+                                            <div class="col-xs-6">{{attack.name}}
+                                                + {{attack.bonusToHit}} ({{attack.diceCount}}d{{attack.diceValue}}
+                                                + {{attack.diceBonus}}{{attack.additionalEffects != "" ?  " plus "+attack.additionalEffects : ""}})
+                                            </div>
+                                            <div ng-class="{'col-xs-6':true, 'critical-attack': attack.currentRollToHit >= attack.lowerCriticalRange, 'critical-miss':attack.currentRollToHit == 1}">
+                                                <div>{{attack.currentTotalToHit}}({{attack.currentRollToHit}}) to hit, {{attack.currentDamage}} damage{{attack.additionalEffects != "" ?  " plus "+attack.additionalEffects : ""}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" id="character-CMB">
+                                <div class="col-xs-12">
+                                    <span ng-if="currentMonster.CMB != 0">
+                                        CMB: +{{currentMonster.CMB}}(Total:{{currentMonster.currentCMB}}, Roll:{{currentMonster.currentCMBRoll}}) <input type="button" class="roll-attack-group btn btn-secondary btn-sm" ng-click="rollCMB(currentMonster)" value="CMB" />
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" additional-notes ng-repeat="notes in currentMonster.additionalNotes">
+                    <div class="row-height">
+                        <div class="col-xs-2 col-height monster-display-label">
+                            <span>{{notes.heading}}</span>
+                        </div>
+                        <div class="col-xs-10 col-height monster-display-content">
+                            <span>{{notes.value}}</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-xs-3 monster-buttons">
+                <div class="row" ng-repeat="monster in monsters">
+                    <button type=button class="btn btn-secondary monster-button" ng-click="updateCurrentMonster(monster.name)">{{monster.name}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<link rel="stylesheet" href="Components/MonsterRoller/MonsterRoller.css">
