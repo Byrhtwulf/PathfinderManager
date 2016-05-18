@@ -38,6 +38,7 @@ PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal',
     $scope.newCharacterInitiative = "";
     $scope.newCharacterCount = 1;
     $scope.newCharacterHp = "";
+    $scope.combatStarted = false;
 
 
     $scope.toggleDiceRoller = function(){
@@ -165,12 +166,16 @@ PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal',
 
     //Starts combat
     $scope.startCombat = function(){
-        //Set Rounds = 1
-        $scope.roundCounter = 1;
-        //Adds a new item to the start of the initiative order to keep track of the start of a new round
-        $scope.addCharactersToInitiative("Start of New Round", 1000, 0,1);
-        //Order list of characters by initiative
-        InitiativeTrackerService.sortCharacterDataByInitiative();
+        if (!$scope.combatStarted) {
+            //Set Rounds = 1
+            $scope.roundCounter = 1;
+            //Adds a new item to the start of the initiative order to keep track of the start of a new round
+            $scope.addCharactersToInitiative("Start of New Round", 1000, 0, 1);
+            //Order list of characters by initiative
+            InitiativeTrackerService.sortCharacterDataByInitiative();
+
+            $scope.combatStarted = true;
+        }
     }
 
     $scope.autoCompleteSearch = function (query) {

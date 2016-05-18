@@ -85,8 +85,8 @@
                 <div class="col-xs-2 col-height monster-display-label">
                     <div>{{notes.heading}}</div>
                 </div>
-                <div class="col-xs-10 col-height monster-display-content">
-                    <div>{{notes.value}}</div>
+                <div class="col-xs-10 col-height monster-display-content" ng-bind-html="notes.value">
+
                 </div>
             </div>
         </div>
