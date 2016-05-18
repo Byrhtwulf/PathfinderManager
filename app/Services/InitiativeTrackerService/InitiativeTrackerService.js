@@ -111,10 +111,27 @@ InitiativeTrackerService.service('InitiativeTrackerService', ['MonsterManager', 
   this.setHp = function(ID, Hp){
     var character = $.grep(this.characterData, function(obj){
       return obj.ID == ID
-    })[0];
-    character.characters.map(function(c){
-      c.currentHp = Hp;
-    })
+    });
+    if (character.length > 0){
+      for (var i = 0; i < character.length; i++){
+        character[i].characters.map(function(c){
+          c.currentHp = Hp;
+        })
+      }
+    }
+  }
+
+  this.setInitiative = function(ID, Initiative){
+    var character = $.grep(this.characterData, function(obj){
+      return obj.ID == ID
+    });
+    if (character.length > 0){
+      character.map(function(c){
+        var currentRoll = Math.floor(Math.random() * 20) + 1;
+        var total = currentRoll + Initiative;
+        c.initiative = total;
+      })
+    }
   }
 
   //Moves to next character group in initiative order

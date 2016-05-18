@@ -21,6 +21,7 @@ creator.controller('MonsterCreator', ['$scope', 'MonsterManager', function($scop
     $scope.MonsterCreated = false;
     $scope.MonsterEdited = false;
     $scope.MonsterDeleted = false;
+    $scope.useStatBlock = true;
 
 
     $scope.addAttackGroup = function(){
@@ -55,10 +56,14 @@ creator.controller('MonsterCreator', ['$scope', 'MonsterManager', function($scop
         var id = $scope.newMonster.ID;
         var name = $scope.newMonster.name;
         MonsterManager.addMonsterName({ID:id, Name: name});
+        if ($scope.useStatBlock){
+            $scope.newMonster.monsterAdditionalNotes = angular.copy($scope.statBlockAbilities);
+        }
         MonsterManager.createNewMonster($scope.newMonster).then(function(response){
             MonsterManager.addMonsterName(response.data);
         });
         $scope.newMonster = angular.copy($scope.emptyMonster);
+        $scope.statBlockAbilities = angular.copy($scope.emptyStatBlockAbilities);
         $scope.MonsterCreated = true;
     }
 
@@ -94,6 +99,10 @@ creator.controller('MonsterCreator', ['$scope', 'MonsterManager', function($scop
         $scope.newMonster = angular.copy($scope.emptyMonster);
         $scope.MonsterDeleted = true;
     }
+
+    $scope.statBlockAbilities = [{noteTitle: "Info", noteBody: ""}, {noteTitle: "Defense", noteBody: ""}, {noteTitle: "Offense", noteBody: ""}, {noteTitle: "Statistics", noteBody: ""}, {noteTitle: "Special Abilities", noteBody: ""} ]
+    $scope.emptyStatBlockAbilities = [{noteTitle: "Info", noteBody: ""}, {noteTitle: "Defense", noteBody: ""}, {noteTitle: "Offense", noteBody: ""}, {noteTitle: "Statistics", noteBody: ""}, {noteTitle: "Special Abilities", noteBody: ""} ]
+
 
     $scope.newAttack =  {name:"", bonusToHit: "", diceValue: "", diceCount: "", diceBonus:"", currentRollToHit: 0, currentTotalToHit: 0, currentDamage:0, lowerCriticalRange: "", additionalEffects:""}
     $scope.newMonster = {

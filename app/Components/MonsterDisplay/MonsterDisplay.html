@@ -1,10 +1,14 @@
 <div class="row" ng-controller="MonsterDisplay">
     <div class="col-xs-9" id="monster-display">
         <div class="row" id="character-heading">
-            <div class="col-xs-18">
+            <div class="col-xs-9">
                 <b>{{currentMonster.name}}</b>
             </div>
+            <div class="col-xs-3 ">
+                <input type="checkbox" ng-model="useStatBlock" value="showDiceHistory"/>Use Stat Block
+            </div>
         </div>
+        <div class="non-stat-block" ng-show="!useStatBlock">
         <div class="row" id="character-defense">
             <div class="row-height">
                 <div class="col-xs-2 col-height monster-display-label">
@@ -76,17 +80,27 @@
                 </div>
             </div>
         </div>
-        <div class="row" additional-notes ng-repeat="notes in currentMonster.additionalNotes">
+        <div class="row additional-notes" ng-repeat="notes in currentMonster.monsterAdditionalNotes">
             <div class="row-height">
                 <div class="col-xs-2 col-height monster-display-label">
-                    <span>{{notes.heading}}</span>
+                    <div>{{notes.heading}}</div>
                 </div>
                 <div class="col-xs-10 col-height monster-display-content">
-                    <span>{{notes.value}}</span>
+                    <div>{{notes.value}}</div>
                 </div>
             </div>
         </div>
-
+        </div>
+        <div class="row monster-stat-block additional-notes" ng-show="useStatBlock" ng-repeat="notes in currentMonster.monsterAdditionalNotes">
+            <div class="row-height">
+                <div class="col-xs-2 col-height monster-display-label">
+                    <div>{{notes.heading}}</div>
+                </div>
+                <div class="col-xs-10 col-height monster-display-content" ng-bind-html="notes.value">
+                    <!--<div>{{notes.value}}</div>-->
+                </div>
+            </div>
+        </div>
     </div>
     <div class="col-xs-3 monster-buttons">
         <div class="row" ng-repeat="monster in monsters">

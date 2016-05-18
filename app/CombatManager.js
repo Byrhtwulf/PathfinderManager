@@ -71,7 +71,7 @@ PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal',
     )
 
     //Current list of Main Characters
-    $scope.mainCharacters = ["Arc", "Boromir", "Kabuto", "Rhaelyn"];
+    $scope.mainCharacters = ["Ahmenhotep", "Kirk", "Acheron"];
 
     //List of characters to add group status to
     $scope.charactersToAddStatuses = [];
@@ -104,6 +104,7 @@ PathfinderManager.controller('CombatManager', ['$scope', 'hotkeys', '$uibModal',
                 var monster = JSON.parse(response.data)
                 MonsterManager.addMonsterToArray(monster);
                 InitiativeTrackerService.setHp(newCharacterName.ID, monster.HP);
+                InitiativeTrackerService.setInitiative(newCharacterName.ID, monster.Initiative);
             })
         }
         InitiativeTrackerService.addCharactersToInitiative(newCharacterName, newCharacterInitiative, newCharacterHp, newCharacterCount);

@@ -20,6 +20,8 @@ display.controller('MonsterDisplay', ['$scope', 'MonsterManager', function($scop
         }
     )
 
+    $scope.useStatBlock = true;
+
     $scope.changeMonster = function(ID){
         MonsterManager.updateCurrentMonster(ID);
     }

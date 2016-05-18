@@ -2,14 +2,18 @@
 
 var MonsterService = angular.module('PathfinderManager.MonsterService', []);
 
-MonsterService.service('MonsterManager', function($http){
+MonsterService.service('MonsterManager', function($http, $sce){
 
     //Current monster object used in display
     this.currentMonster = {};
     this.monsters = [];
     this.monsterNames = [];
-    //this.url = "http://localhost:53927/api/";
-    this.url = "https://home.schmidtaki.com/pfmanager/api/"
+    this.noteLabels = ["Init", "Senses", "Perception", "Aura", "AC", "hp", "Fort", "Ref", "Will", "DR", "Defensive Abilities", "Immune", "Speed",
+        "Melee", "Ranged", "Special Attacks", "Domain Spell-Like Abilities", "Spells Known", "Spells Prepared", "Arcane Spells Known", "Divine Spells Known",
+        "Bloodlines", "Bloodline", "Reach", "Str", "Dex", "Con", "Int", "Wis", "Cha", "Base Atk", "CMB", "CMD", "Feats", "SKills", "Languages", "SQ", "XP", "Space",
+        "Constant", "Spell-Like Abilities", "Skills", "Gear", "Arcane School"]
+    this.url = "http://localhost:53927/api/";
+    //this.url = "https://home.schmidtaki.com/pfmanager/api/"
     //retrieves current monster
     this.getCurrentMonster = function(){
         if (this.currentMonster === undefined) {
@@ -227,10 +231,22 @@ MonsterService.service('MonsterManager', function($http){
     this.setMonsterAdditionalNotes = function(monster, newMonster){
         for (var i = 0; i < newMonster.Monster_Additional_Notes.length; i++){
             var note = newMonster.Monster_Additional_Notes[i];
-            var noteValue = note.Notes.replace("\n", "<br/>");
-            var newNote = {heading:note.Name, value:noteValue}
-            monster.monsterAdditionalNotes.push(newNote);
+            if (note != null && note.Notes != null) {
+                var tempNotes = this.formatAdditionalNotes(note.Notes);
+                var noteValue = $sce.trustAsHtml(tempNotes);
+                var newNote = {heading: note.Name, value: noteValue}
+                monster.monsterAdditionalNotes.push(newNote);
+            }
         }
+    }
+
+    this.formatAdditionalNotes = function(noteValue){
+        for (var i = 0, word; word = this.noteLabels[i]; i++){
+            //noteValue = noteValue.replace(this.noteLabels[i], "<b>"+this.noteLabels[i]+"</b>");
+            var re = new RegExp("\\b"+word+"\\b", 'g');
+            noteValue = noteValue.replace(re, "<b>" + word + "</b>");
+        }
+        return noteValue;
     }
 
 

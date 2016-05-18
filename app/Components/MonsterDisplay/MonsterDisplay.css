@@ -33,7 +33,7 @@
     margin-bottom:10px;
 }
 
-#character-defense div{
+#character-defense div {
     border-top:1px black solid;
 }
 
@@ -58,4 +58,12 @@
 .monster-button{
     margin-bottom:5px;
     margin-left:5px;
+}
+
+.additional-notes .monster-display-content{
+    white-space:pre-line;
+}
+.monster-stat-block{
+    border-top:1px black solid;
+    border-left:1px black solid;
 }
